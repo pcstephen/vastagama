@@ -8,18 +8,10 @@ export default function App() {
       <Routes>
       <Route path="/clientes" element={<Cliente/>}> </Route>
       <Route path="/home" element={<Home/>}> </Route>
-      <Route path="/pagcliente" element={<PagCliente/>}> </Route>
       </Routes>
-
     </>
   );
 }
-
-const PagCliente = () => (
-  <div>
-    <h1>Cliente</h1>
-  </div>
-);
 
 const Home = () => (
   <div>

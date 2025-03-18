@@ -1,9 +1,9 @@
 import { Nav, Navbar, Container, NavDropdown } from "react-bootstrap";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, } from "react-router-dom";
 
 export default function Menu() {
   return (
-    <Navbar expand="lg" className="bg-body-tertiary">
+    <Navbar className="navbar navbar-expand-lg navbar-dark bg-dark">
       <Container>
         <Navbar.Brand href="#home">Vastagama Site</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
