@@ -3,182 +3,61 @@ import React, { useEffect, useState } from "react";
 const clienteInicial = {
   id: 0,
   nome: '',
-  endereco: {
-    rua: '',
-    bairro: '',
-    complemento: '',
-    cidade: '',
-  },
-  telefone: {
-    numero: '',
-  },
+  endereco: { rua: '', bairro: '', complemento: '', cidade: '' },
+  telefone: { numero: '' },
 };
 
-export default function ClienteForm(props) {
-  const [cliente, setCliente] = useState(clienteAtual());
+export default function ClienteForm({ clienteSelecionado, adicionarCliente, atualizarCliente, cancelar }) {
+  const [cliente, setCliente] = useState(clienteSelecionado || clienteInicial);
+
+  useEffect(() => {
+    setCliente(clienteSelecionado || clienteInicial);
+  }, [clienteSelecionado]);
 
   const handleChangeInput = (e) => {
     const { name, value } = e.target;
 
-    if(name.includes('.')){
+    if (name.includes('.')) {
       const [parent, child] = name.split('.');
-        setCliente({...cliente,
-          [parent]: {
-            ...cliente[parent],
-            [child]:value
-          }
-        });
-    } else{
-      setCliente({...cliente, [name]:value})
-    }
-  }
-
-  useEffect(() => {
-    if (props.clienteSelecionado.id !== 0) setCliente(props.clienteSelecionado);
-    else setCliente(clienteInicial);
-  }, [props.clienteSelecionado]);
-
-  function clienteAtual() {
-    if (
-      props.clienteSelecionado.id !== 0 &&
-      props.clienteSelecionado.id !== undefined
-    ) {
-      return props.clienteSelecionado;
+      setCliente({ ...cliente, [parent]: { ...cliente[parent], [child]: value } });
     } else {
-      return clienteInicial;
+      setCliente({ ...cliente, [name]: value });
     }
-  }
-
-  const handleCancelar = (e) => {
-    e.preventDefault();
-    props.cancelar();
-
-    setCliente(clienteAtual());
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    if (props.clienteSelecionado.id !== 0) {
-      props.atualizarCliente(cliente);
-    } else {
-      props.adicionarCliente(cliente);
-    }
-    setCliente({
-      ...clienteInicial,
-      endereco: { ...clienteInicial.endereco },
-      telefone: { ...clienteInicial.telefone },
-    });
+    cliente.id !== 0 ? atualizarCliente(cliente) : adicionarCliente(cliente);
+    setCliente(clienteInicial);
   };
 
   return (
-    <>
-      <form className="row g-3">
-        <div className="col-md-12">
-          <label className="form-label">Nome Completo:</label>
-          <input
-            className="form-control"
-            key=""
-            name="nome"
-            id="nome"
-            type="text"
-            onChange={handleChangeInput}
-            value={cliente.nome}
-          />
-        </div>
+    <form className="row g-3" onSubmit={handleSubmit}>
+      <div className="col-md-12">
+        <label className="form-label">Nome Completo:</label>
+        <input className="form-control" name="nome" type="text" onChange={handleChangeInput} value={cliente.nome} />
+      </div>
 
-        <div className="col-md-6">
-          <label className="form-label">Telefone:</label>
-          <input
-            className="form-control"
-            key="telefone.numero"
-            name="telefone.numero"
-            id="telefone"
-            type="text"
-            onChange={handleChangeInput}
-            value={cliente.telefone.numero}
-          />
-        </div>
+      <div className="col-md-6">
+        <label className="form-label">Telefone:</label>
+        <input className="form-control" name="telefone.numero" type="text" onChange={handleChangeInput} value={cliente.telefone.numero} />
+      </div>
 
-        <div className="col-md-6">
-          <label className="form-label">Rua:</label>
-          <input
-            className="form-control"
-            key="endereco.rua"
-            name="endereco.rua"
-            id="rua"
-            type="text"
-            onChange={handleChangeInput}
-            value={cliente.endereco.rua}
-          />
+      {["rua", "bairro", "complemento", "cidade"].map((campo) => (
+        <div className="col-md-6" key={campo}>
+          <label className="form-label">{campo.charAt(0).toUpperCase() + campo.slice(1)}:</label>
+          <input className="form-control" name={`endereco.${campo}`} type="text" onChange={handleChangeInput} value={cliente.endereco[campo]} />
         </div>
-        <div className="col-md-6">
-          <label className="form-label">Bairro:</label>
-          <input
-            className="form-control"
-            key="endereco.bairro"
-            name="endereco.bairro"
-            id="bairro"
-            type="text"
-            onChange={handleChangeInput}
-            value={cliente.endereco.bairro}
-          />
-        </div>
-        <div className="col-md-6">
-          <label className="form-label">Complemento:</label>
-          <input
-            className="form-control"
-            key="endereco.complemento"
-            name="endereco.complemento"
-            id="complemento"
-            type="text"
-            onChange={handleChangeInput}
-            value={cliente.endereco.complemento}
-          />
-        </div>
-        <div className="col-md-6">
-          <label className="form-label">Cidade:</label>
-          <input
-            className="form-control"
-            key="endereco.cidade"
-            name="endereco.cidade"
-            id="cidade"
-            type="text"
-            onChange={handleChangeInput}
-            value={cliente.endereco.cidade}
-          />
-        </div>
-        <hr />
+      ))}
 
-        <div className="d-flex justify-content-end col-12">
-          {cliente.id === 0 ? (
-            <button
-              className=" btn btn-outline-success"
-              type="submit"
-              onClick={handleSubmit}
-            >
-              <i className="bi bi-plus "></i> Salvar
-            </button>
-          ) : (
-            <div className="d-flex justify-content-end">
-              <button
-                className="btn btn-outline-success me-1"
-                type="submit"
-                onClick={handleSubmit}
-              >
-                Salvar
-              </button>
-
-              <button
-                className="btn btn-outline-warning"
-                onClick={handleCancelar}
-              >
-              Cancelar
-              </button>
-            </div>
-          )}
-        </div>
-      </form>
-    </>
+      <div className="d-flex justify-content-end col-12">
+        <button className="btn btn-outline-success me-2" type="submit">
+          <i className="bi bi-check-circle"></i> Salvar
+        </button>
+        <button className="btn btn-outline-warning" type="button" onClick={cancelar}>
+          <i className="bi bi-x-circle"></i> Cancelar
+        </button>
+      </div>
+    </form>
   );
 }
