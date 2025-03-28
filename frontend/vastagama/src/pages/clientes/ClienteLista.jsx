@@ -12,6 +12,10 @@ export default function ClienteLista({ clientes, pegarCliente, handleConfirmModa
     Object.values(cliente).join(" ").toLowerCase().includes(termoBusca.toLowerCase())
   );
 
+  function isBlank(str) {
+    return !str || str.trim().length === 0;
+  }
+
   return (
     <>
       <InputGroup className="mt-3 mb-3">
@@ -38,11 +42,13 @@ export default function ClienteLista({ clientes, pegarCliente, handleConfirmModa
               <td>{cliente.id}</td>
               <td>{cliente.nome}</td>
               <td>
-                {cliente.endereco
+                {cliente.endereco &&
+                !isBlank(cliente.endereco.rua) &&
+                !isBlank(cliente.endereco.bairro) &&
+                !isBlank(cliente.endereco.cidade)
                   ? `${cliente.endereco.rua}, ${cliente.endereco.bairro}, ${cliente.endereco.cidade}`
                   : "Endereço não informado"}
               </td>
-              <td>{cliente.telefone ? cliente.telefone.numero : "Não informado"}</td>
               <td>
                 <button className="btn btn-sm btn-outline-primary me-2" onClick={() => pegarCliente(cliente.id)}>
                   <i className="bi bi-pencil"></i> Editar
