@@ -17,50 +17,65 @@ export default function ClienteLista({ clientes, pegarCliente, handleConfirmModa
   }
 
   return (
-    <>
-      <InputGroup className="mt-3 mb-3">
-        <InputGroup.Text>Buscar</InputGroup.Text>
-        <Form.Control
-          placeholder="Buscar cliente por nome"
-          onChange={inputTextHandler}
-        />
-      </InputGroup>
+      <>
+        <InputGroup className="mt-3 mb-3">
+          <InputGroup.Text>
+            <i className="bi bi-search"></i>
+          </InputGroup.Text>
+          <Form.Control
+              placeholder="Buscar cliente por nome"
+              onChange={inputTextHandler}
+          />
+        </InputGroup>
 
-      <table className="table table-striped table-hover">
-        <thead className="table-dark">
-          <tr>
-            <th>#</th>
-            <th>Nome</th>
-            <th>Endereço</th>
-            <th>Telefone</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          {clientesFiltrados.map((cliente) => (
-            <tr key={cliente.id}>
-              <td>{cliente.id}</td>
-              <td>{cliente.nome}</td>
-              <td>
-                {cliente.endereco &&
-                !isBlank(cliente.endereco.rua) &&
-                !isBlank(cliente.endereco.bairro) &&
-                !isBlank(cliente.endereco.cidade)
-                  ? `${cliente.endereco.rua}, ${cliente.endereco.bairro}, ${cliente.endereco.cidade}`
-                  : "Endereço não informado"}
-              </td>
-              <td>
-                <button className="btn btn-sm btn-outline-primary me-2" onClick={() => pegarCliente(cliente.id)}>
-                  <i className="bi bi-pencil"></i> Editar
-                </button>
-                <button className="btn btn-sm btn-outline-danger me-2" onClick={() => handleConfirmModal(cliente.id)}>
-                  <i className="bi bi-trash"></i> Excluir
-                </button>
-              </td>
+        <table className="table table-striped table-hover">
+          <thead className="table-dark">
+            <tr>
+              <th>#</th>
+              <th>Nome</th>
+              <th>Endereço</th>
+              <th>Telefone</th>
+              <th>Ações</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </>
+          </thead>
+          <tbody>
+            {clientesFiltrados.map((cliente, index) => (
+              <tr key={cliente.id}>
+                <td>{index + 1}</td>
+                <td>{cliente.nome}</td>
+                <td>
+                  {cliente.endereco &&
+                  !isBlank(cliente.endereco.rua) &&
+                  !isBlank(cliente.endereco.bairro) &&
+                  !isBlank(cliente.endereco.cidade)
+                    ? `${cliente.endereco.rua}, ${cliente.endereco.bairro}, ${cliente.endereco.cidade}`
+                    : "Endereço não informado"}
+                </td>
+                <td>
+                  {cliente.telefones.length > 0 ? cliente.telefones.map((telefone,index) =>(
+                      <span
+                          key={telefone.id}>{telefone.numero}
+                          {index < cliente.telefones.length - 1 ? " / " : ""}
+                      </span>
+
+                  )) : "Telefone não informado!"}
+                </td>
+                <td>
+                  <button className="btn btn-sm btn-outline-primary me-2" onClick={() => pegarCliente(cliente.id)}>
+                    <i className="bi bi-pencil"></i> Editar
+                  </button>
+                  <button className="btn btn-sm btn-outline-danger me-2" onClick={() => handleConfirmModal(cliente.id)}>
+                    <i className="bi bi-trash"></i> Excluir
+                  </button>
+                  <button className="btn btn-sm btn-success me-2" onClick={() => handleConfirmModal(cliente.id)}>
+                    <i className="bi bi-eye"></i> Ver Detalhes
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+      </>
   );
 }

@@ -23,7 +23,7 @@ public class ClienteService {
     }
 
     public List<Cliente> findAll() {
-        return repo.findAll();
+        return repo.findAllByOrderByNomeAsc();
     }
 
     public List<Cliente> buscarPorNome(String nome){

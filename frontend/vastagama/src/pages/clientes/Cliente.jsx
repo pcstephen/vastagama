@@ -8,8 +8,34 @@ import api from "../../api/atividade";
 const clienteInicial = {
   id: 0,
   nome: "",
-  endereco: { rua: "", bairro: "", complemento: "", cidade: "" },
-  telefone: { numero: "" },
+  endereco: {
+    rua: "",
+    bairro: "",
+    complemento: "",
+    cidade: "",
+  },
+  telefones: [
+    {
+      numero: "",
+    },
+  ],
+  ordemDeServicos: [
+    {
+      observacoes: "",
+      itens: [
+        {
+          descricao: "",
+          quantidade: 0,
+          valorUnitario: 0.0,
+        },
+        {
+          descricao: "",
+          quantidade: 0,
+          valorUnitario: 0.0,
+        },
+      ],
+    },
+  ],
 };
 
 export default function Cliente() {
