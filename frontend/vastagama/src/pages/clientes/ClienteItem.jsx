@@ -1,4 +1,6 @@
 import React from "react";
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
 
 export default function ClienteItem({ cliente, pegarCliente, handleConfirmModal }) {
   return (
@@ -20,6 +22,11 @@ export default function ClienteItem({ cliente, pegarCliente, handleConfirmModal 
             <button className="btn btn-outline-danger me-2" onClick={() => handleConfirmModal(cliente.id)}>
               <i className="bi bi-trash"></i> Excluir
             </button>
+            <DropdownButton id="dropdown-basic-button" title="...">
+              <Dropdown.Item href="#/action-1">Ação 1</Dropdown.Item>
+              <Dropdown.Item href="#/action-2">Ação 2</Dropdown.Item>
+              <Dropdown.Item href="#/action-3">Ação 3</Dropdown.Item>
+            </DropdownButton>
           </div>
         </div>
       </div>

@@ -83,14 +83,14 @@ import React, { useEffect, useState } from "react";
 
 
     return (
-      <form className="row g-3" onSubmit={handleSubmit}>
+      <form className="row g-6 form-bg" onSubmit={handleSubmit}>
         <div className="col-md-12">
-          <label className="form-label">Nome Completo:</label>
+          <label className="form-label mb-1"><strong>Nome Completo:</strong></label>
           <input className="form-control" name="nome" type="text" onChange={handleChangeInput} value={cliente.nome} />
         </div>
 
-        <div className="col-md-6">
-          <label className="form-label">Telefone:</label>
+        <div className="col-md-12 mt-1">
+          <label className="form-label mb-1"><strong>Telefone:</strong></label>
           <input className="form-control" name="telefone.numero" type="text" onChange={handleChangeInput} value={cliente.telefones[0].numero} />
         </div>
 
@@ -100,13 +100,13 @@ import React, { useEffect, useState } from "react";
         {/*</div>*/}
 
         {["rua", "bairro", "complemento", "cidade"].map((campo) => (
-          <div className="col-md-6" key={campo}>
-            <label className="form-label">{campo.charAt(0).toUpperCase() + campo.slice(1)}:</label>
+          <div className="col-md-6 mt-1" key={campo}>
+            <label className="form-label mb-1">{campo.charAt(0).toUpperCase() + campo.slice(1)}:</label>
             <input className="form-control" name={`endereco.${campo}`} type="text" onChange={handleChangeInput} value={cliente.endereco[campo]} />
           </div>
         ))}
 
-        <hr/>
+        <hr className="mt-3"/>
         <div className="d-flex justify-content-between align-itens-center mb-3">
 
           <h5>Ordem de Serviço</h5>
@@ -121,7 +121,7 @@ import React, { useEffect, useState } from "react";
               <div><strong>Item {index + 1}</strong></div>
 
               <div className="mb-3">
-                <label className="form-label">Descrição</label>
+                <label className="mt-2">Descrição</label>
                 <textarea
                     className="form-control"
                     value={item.descricao}

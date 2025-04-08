@@ -27,12 +27,7 @@ const clienteInicial = {
           descricao: "",
           quantidade: 0,
           valorUnitario: 0.0,
-        },
-        {
-          descricao: "",
-          quantidade: 0,
-          valorUnitario: 0.0,
-        },
+        }
       ],
     },
   ],

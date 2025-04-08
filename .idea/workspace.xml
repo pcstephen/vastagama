@@ -5,13 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ff7af8e2-6da4-4214-9fa9-74d3c344bbf2" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/projeto-vastagama.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/projeto-vastagama.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/vastagama/src/main/java/com/pcstephen/vastagama/repositorios/ClienteRepositorio.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/vastagama/src/main/java/com/pcstephen/vastagama/repositorios/ClienteRepositorio.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/vastagama/src/main/java/com/pcstephen/vastagama/services/ClienteService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/vastagama/src/main/java/com/pcstephen/vastagama/services/ClienteService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/vastagama/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/vastagama/src/index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/vastagama/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/vastagama/src/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/vastagama/src/pages/clientes/Cliente.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/vastagama/src/pages/clientes/Cliente.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/vastagama/src/pages/clientes/ClienteForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/vastagama/src/pages/clientes/ClienteForm.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/vastagama/src/pages/clientes/ClienteItem.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/vastagama/src/pages/clientes/ClienteItem.jsx" afterDir="false" />
@@ -109,7 +104,10 @@
       <workItem from="1743276084890" duration="958000" />
       <workItem from="1743528960589" duration="10964000" />
       <workItem from="1743612454261" duration="9903000" />
-      <workItem from="1743691030322" duration="10726000" />
+      <workItem from="1743691030322" duration="11464000" />
+      <workItem from="1744044629448" duration="2084000" />
+      <workItem from="1744057744786" duration="1317000" />
+      <workItem from="1744112364426" duration="4400000" />
     </task>
     <servers />
   </component>

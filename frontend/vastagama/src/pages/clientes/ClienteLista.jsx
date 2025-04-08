@@ -1,5 +1,8 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Form, InputGroup } from "react-bootstrap";
+import{useNavigate} from "react-router-dom";
+
+const navigate = useNavigate();
 
 export default function ClienteLista({ clientes, pegarCliente, handleConfirmModal }) {
   const [termoBusca, setTermoBusca] = useState("");
@@ -67,7 +70,7 @@ export default function ClienteLista({ clientes, pegarCliente, handleConfirmModa
                   <button className="btn btn-sm btn-outline-danger me-2" onClick={() => handleConfirmModal(cliente.id)}>
                     <i className="bi bi-trash"></i> Excluir
                   </button>
-                  <button className="btn btn-sm btn-success me-2" onClick={() => handleConfirmModal(cliente.id)}>
+                  <button className="btn btn-sm btn-success me-2" onClick={ () => navigate(`clientes/${cliente.id}`)}>
                     <i className="bi bi-eye"></i> Ver Detalhes
                   </button>
                 </td>
