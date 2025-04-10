@@ -2,13 +2,13 @@ package com.pcstephen.vastagama.services;
 
 import com.pcstephen.vastagama.entidades.ItemOrdemServico;
 import com.pcstephen.vastagama.entidades.OrdemServico;
+import com.pcstephen.vastagama.infra.excecoes.ObjetoInvalidoException;
+import com.pcstephen.vastagama.infra.excecoes.ObjetoNaoEncontradoException;
 import com.pcstephen.vastagama.repositorios.OrdemServicoRepositorio;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -31,14 +31,14 @@ public class OrdemServicoService {
         }
 
         if(ordemServico.getCliente() == null){
-            throw new IllegalArgumentException("Erro: Ordem de Servico sem cliente vinculado!");
+            throw new ObjetoInvalidoException("Erro: Ordem de Servico sem cliente vinculado!");
         }
 
         repo.save(ordemServico);
     }
 
     public void editarOrdemServico(UUID id,OrdemServico ordemServico){
-        repo.findById(id).orElseThrow(()-> new EntityNotFoundException("Erro: Ordem de Serviço não encontrada!"));
+        repo.findById(id).orElseThrow(()-> new ObjetoNaoEncontradoException("Erro: Ordem de Serviço não encontrada!"));
 
         OrdemServico novaOrdemServico = new OrdemServico();
 
@@ -51,7 +51,7 @@ public class OrdemServicoService {
         repo.save(novaOrdemServico);
     }
     public void excluirOrdemServico(UUID id){
-        repo.findById(id).orElseThrow(() -> new EntityNotFoundException("Erro: Ordem de Serviço não encontrada!"));
+        repo.findById(id).orElseThrow(() -> new ObjetoNaoEncontradoException("Erro: Ordem de Serviço não encontrada!"));
 
         repo.deleteById(id);
     }

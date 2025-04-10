@@ -1,9 +1,9 @@
 package com.pcstephen.vastagama.services;
 
-import com.pcstephen.vastagama.entidades.Cliente;
 import com.pcstephen.vastagama.entidades.Telefone;
+import com.pcstephen.vastagama.infra.excecoes.ObjetoInvalidoException;
 import com.pcstephen.vastagama.repositorios.TelefoneRepositorio;
-import jakarta.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,7 +33,7 @@ public class TelefoneService {
 
     @Transactional
     public void editarTelefone(UUID id,Telefone telefone){
-        Telefone telefoneEditado = buscarPorId(id).orElseThrow(()-> new EntityNotFoundException("Telefone não encontrado!"));
+        Telefone telefoneEditado = buscarPorId(id).orElseThrow(()-> new ObjetoInvalidoException("Telefone não encontrado!"));
         telefoneEditado.setNumero(telefone.getNumero());
 
         conferirDados(telefone);
@@ -42,18 +42,18 @@ public class TelefoneService {
 
     @Transactional
     public void deletar(UUID id){
-        buscarPorId(id).orElseThrow(()-> new EntityNotFoundException("Telefone não encontrado!"));
+        buscarPorId(id).orElseThrow(()-> new ObjetoInvalidoException("Telefone não encontrado!"));
 
         repo.deleteById(id);
     }
 
     private void conferirDados(Telefone telefone) {
         if(telefone.getNumero() == null){
-            throw new IllegalArgumentException("O campo Número deve ser preenchido!");
+            throw new ObjetoInvalidoException("O campo Número deve ser preenchido!");
         } else if(telefone.getNumero().length() != 11){
-            throw new IllegalArgumentException("Número inválido!");
+            throw new ObjetoInvalidoException("Número inválido!");
         } else if(telefone.getCliente() == null){
-            throw new IllegalArgumentException("Telefone não tem um cliente associado!");
+            throw new ObjetoInvalidoException("Telefone não tem um cliente associado!");
         }
     }
 

@@ -2,8 +2,8 @@ package com.pcstephen.vastagama.services;
 
 import com.pcstephen.vastagama.dto.EnderecoDTO;
 import com.pcstephen.vastagama.entidades.Endereco;
+import com.pcstephen.vastagama.infra.excecoes.ObjetoInvalidoException;
 import com.pcstephen.vastagama.repositorios.EnderecoRepositorio;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,7 +35,7 @@ public class EnderecoService {
 
     @Transactional
     public void atualizar(UUID id, EnderecoDTO enderecoDTO){
-        Endereco enderecoEditado = buscarPorId(id).orElseThrow(()-> new EntityNotFoundException("Endereco não encontrado!"));
+        Endereco enderecoEditado = buscarPorId(id).orElseThrow(()-> new ObjetoInvalidoException("Endereco não encontrado!"));
         enderecoEditado.setRua(enderecoDTO.rua());
         enderecoEditado.setRua(enderecoDTO.bairro());
         enderecoEditado.setRua(enderecoDTO.complemento());
@@ -47,21 +47,21 @@ public class EnderecoService {
 
     @Transactional
     public void remover(UUID id){
-        buscarPorId(id).orElseThrow(()-> new EntityNotFoundException("Endereço não encontrado!"));
+        buscarPorId(id).orElseThrow(()-> new ObjetoInvalidoException("Endereço não encontrado!"));
         repo.deleteById(id);
     }
 
     private void confereDados(Endereco endereco){
         if(endereco.getCidade() == null || endereco.getCidade().isEmpty() || endereco.getCidade().isBlank()){
-            throw new IllegalArgumentException("Campo cidade deve ser preenchido!");
+            throw new ObjetoInvalidoException("Campo cidade deve ser preenchido!");
         }if(endereco.getRua() == null || endereco.getRua().isEmpty() || endereco.getRua().isBlank()){
-            throw new IllegalArgumentException("Campo RUA deve ser preenchido!");
+            throw new ObjetoInvalidoException("Campo RUA deve ser preenchido!");
         }if(endereco.getBairro() == null || endereco.getBairro().isEmpty() || endereco.getBairro().isBlank()){
-            throw new IllegalArgumentException("Campo BAIRRO deve ser preenchido!");
+            throw new ObjetoInvalidoException("Campo BAIRRO deve ser preenchido!");
         }if(endereco.getComplemento() == null || endereco.getComplemento().isEmpty() || endereco.getComplemento().isBlank()){
-            throw new IllegalArgumentException("Campo COMPLEMENTO deve ser preenchido!");
+            throw new ObjetoInvalidoException("Campo COMPLEMENTO deve ser preenchido!");
         }if(endereco.getCliente() == null){
-            throw new IllegalArgumentException("Endereco sem cliente vinculado!");
+            throw new ObjetoInvalidoException("Endereco sem cliente vinculado!");
         }
     }
 }

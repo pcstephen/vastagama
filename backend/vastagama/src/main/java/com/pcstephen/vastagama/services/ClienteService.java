@@ -2,8 +2,8 @@ package com.pcstephen.vastagama.services;
 
 import com.pcstephen.vastagama.dto.ClienteDTO;
 import com.pcstephen.vastagama.entidades.Cliente;
+import com.pcstephen.vastagama.infra.excecoes.ObjetoInvalidoException;
 import com.pcstephen.vastagama.repositorios.ClienteRepositorio;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,7 +32,7 @@ public class ClienteService {
 
     public Optional<Cliente> buscarPorCodigoPublico(String codigoPublico) {
         if(codigoPublico.isBlank()){
-            throw new IllegalArgumentException("Erro: Código inválido!");
+            throw new ObjetoInvalidoException("Erro: Código inválido!");
         }
 
         return repo.findClienteByCodigoPublico(codigoPublico);
@@ -41,7 +41,7 @@ public class ClienteService {
     @Transactional
     public void cadastrarCliente(Cliente cliente){
         Optional.ofNullable(cliente)
-                .orElseThrow(() -> new IllegalArgumentException("Erro: cliente nulo!"));
+                .orElseThrow(() -> new ObjetoInvalidoException("Erro: cliente nulo!"));
 
             cliente.setId(UUID.randomUUID());
             cliente.gerarCodigoPublico();
@@ -49,7 +49,7 @@ public class ClienteService {
 
 
         if (cliente.getNome() == null || cliente.getNome().trim().isBlank()) {
-            throw new IllegalArgumentException("Erro: Nome do cliente não pode ser vazio.");
+            throw new ObjetoInvalidoException("Erro: Nome do cliente não pode ser vazio.");
         }
 
         repo.save(cliente);
@@ -57,10 +57,10 @@ public class ClienteService {
 
     @Transactional
     public void editarCliente(UUID id, ClienteDTO dto){
-        Cliente clienteEditado = buscarPorId(id).orElseThrow(()-> new EntityNotFoundException("Erro: Cliente não encontrado!"));
+        Cliente clienteEditado = buscarPorId(id).orElseThrow(()-> new ObjetoInvalidoException("Erro: Cliente não encontrado!"));
 
         if(dto.nome() == null || dto.nome().trim().isBlank()){
-            throw new IllegalArgumentException("Erro: Nome do cliente não pode ser vazio!");
+            throw new ObjetoInvalidoException("Erro: Nome do cliente não pode ser vazio!");
         }
         clienteEditado.setNome(dto.nome());
         repo.save(clienteEditado);
