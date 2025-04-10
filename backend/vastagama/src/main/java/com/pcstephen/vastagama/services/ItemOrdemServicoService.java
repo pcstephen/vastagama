@@ -19,10 +19,8 @@ public class ItemOrdemServicoService {
     }
 
     public void cadastrarItem(ItemOrdemServico item) {
-        if(item.getId() == null){
-            UUID id = UUID.randomUUID();
-            item.setId(id);
-        }
+
+        item.setId(UUID.randomUUID());
 
         confereDados(item);
         repo.save(item);

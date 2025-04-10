@@ -28,11 +28,7 @@ public class EnderecoService {
 
     @Transactional
     public void cadastrar(Endereco endereco){
-
-        if(endereco.getId() == null){
-            endereco.setId(UUID.randomUUID());
-        }
-
+        endereco.setId(UUID.randomUUID());
         confereDados(endereco);
         repo.save(endereco);
     }

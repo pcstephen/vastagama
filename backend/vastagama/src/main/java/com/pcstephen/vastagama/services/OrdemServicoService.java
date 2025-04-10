@@ -23,11 +23,7 @@ public class OrdemServicoService {
 
     public void cadastrarOrdemServico(OrdemServico ordemServico){
         Optional.ofNullable(ordemServico).orElseThrow(()-> new IllegalArgumentException("Erro: Ordem de Servico nula!"));
-
-        if(ordemServico.getId() == null){
-            UUID uuid = UUID.randomUUID();
-            ordemServico.setId(uuid);
-        }
+        ordemServico.setId(UUID.randomUUID());
 
         if(ordemServico.getDataCadastro() == null){
             LocalDate dataCadastro = LocalDate.now();
