@@ -48,7 +48,7 @@ public class TelefoneService {
     }
 
     private void conferirDados(Telefone telefone) {
-        if(telefone.getNumero() == null){
+        if(telefone.getNumero() == null || telefone.getNumero().isBlank()){
             throw new ObjetoInvalidoException("O campo Número deve ser preenchido!");
         } else if(telefone.getNumero().length() != 11){
             throw new ObjetoInvalidoException("Número inválido!");
