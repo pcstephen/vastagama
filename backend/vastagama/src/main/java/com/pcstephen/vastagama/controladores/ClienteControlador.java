@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -25,20 +26,21 @@ public class ClienteControlador {
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
-    @GetMapping("/buscaPorNome")
-    public ResponseEntity<List<Cliente>> buscarPorNome(@RequestParam String nome){
-        List<Cliente> list = service.buscarPorNome(nome);
-        if(list.isEmpty()){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    @GetMapping("/{cod}")
+    public ResponseEntity<Optional<Cliente>> buscarPorCodigo(@PathVariable String cod){
+        Optional<Cliente> cliente = service.buscarPorCodigoPublico(cod);
+        if(cliente.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(list, HttpStatus.OK);
+        return new ResponseEntity<>(cliente, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<String> salvar(@RequestBody Cliente cliente) {
+    public ResponseEntity<Cliente> salvar(@RequestBody Cliente cliente) {
         service.cadastrarCliente(cliente);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Cliente cadastrado com sucesso!");
+        return ResponseEntity.status(HttpStatus.CREATED).body(cliente);
+//        return ResponseEntity.status(HttpStatus.CREATED).body("Cliente cadastrado com sucesso!");
     }
 
     @PutMapping("/{id}/nome")

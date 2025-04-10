@@ -24,10 +24,7 @@ public class TelefoneService {
 
     @Transactional
     public void cadastrarTelefone(Telefone telefone){
-        if(telefone.getId() == null){
-            UUID uuid = UUID.randomUUID();
-                telefone.setId(uuid);
-        }
+        telefone.setId(UUID.randomUUID());
 
         conferirDados(telefone);
         repo.save(telefone);

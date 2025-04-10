@@ -30,14 +30,23 @@ public class ClienteService {
         return repo.findClienteByNomeContainingIgnoreCaseOrderByNomeAsc(nome);
     }
 
+    public Optional<Cliente> buscarPorCodigoPublico(String codigoPublico) {
+        if(codigoPublico.isBlank()){
+            throw new IllegalArgumentException("Erro: Código inválido!");
+        }
+
+        return repo.findClienteByCodigoPublico(codigoPublico);
+    }
+
     @Transactional
     public void cadastrarCliente(Cliente cliente){
         Optional.ofNullable(cliente)
                 .orElseThrow(() -> new IllegalArgumentException("Erro: cliente nulo!"));
 
-        if (cliente.getId() == null) {
             cliente.setId(UUID.randomUUID());
-        }
+            cliente.gerarCodigoPublico();
+            System.out.println("Código cliente: " + cliente.getCodigoPublico());
+
 
         if (cliente.getNome() == null || cliente.getNome().trim().isBlank()) {
             throw new IllegalArgumentException("Erro: Nome do cliente não pode ser vazio.");

@@ -28,6 +28,8 @@ public class Cliente implements Serializable {
     private Endereco endereco;
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrdemServico> ordemDeServicos = new ArrayList<>();
+    @Column(unique = true)
+    private String codigoPublico;
 
 
     public Cliente() {
@@ -59,5 +61,11 @@ public class Cliente implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
+    }
+
+    @PrePersist
+    public void gerarCodigoPublico(){
+        UUID uuid = UUID.randomUUID();
+        this.codigoPublico = uuid.toString().replace("-","").substring(0, 8);
     }
 }
