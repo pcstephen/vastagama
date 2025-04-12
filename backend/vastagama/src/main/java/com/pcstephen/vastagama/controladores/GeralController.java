@@ -41,7 +41,6 @@ public class GeralController {
 
         enderecoService.cadastrar(endereco);
         novoCliente.setEndereco(endereco);
-        clienteService.cadastrarCliente(novoCliente);
 
         for(int i=0; i<cliente.getTelefones().size(); i++){
             Telefone telefone = new Telefone();
@@ -51,7 +50,6 @@ public class GeralController {
             novoCliente.getTelefones().add(telefone);
             telefoneService.cadastrarTelefone(telefone);
         }
-
 
         for(OrdemServico ordemServico : cliente.getOrdemDeServicos()) {
             OrdemServico novaOrdemServico = new OrdemServico();
@@ -74,8 +72,6 @@ public class GeralController {
 
             ordemServicoService.cadastrarOrdemServico(novaOrdemServico);
         }
-
-        clienteService.cadastrarCliente(novoCliente);
 
         return new ResponseEntity<>(novoCliente, HttpStatus.CREATED);
     }
