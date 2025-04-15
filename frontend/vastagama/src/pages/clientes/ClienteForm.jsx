@@ -1,68 +1,79 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 
-  const itemInicial = {
-    id:0,
+const itemInicial = {
     descricao: "",
     quantidade: 1,
     valorUnitario: 0.0,
-  };
+};
 
-  const clienteInicial = {
-    id: 0,
-    nome: "",
-    endereco: {
-      rua: "",
-      bairro: "",
-      complemento: "",
-      cidade: "",
-    },
-    telefones: [{ id:0, numero: "" }],
-    ordemDeServicos: [
-      {
-        id: 0,
-        observacoes: "",
-        itens: [
-          {
-            id:0,
-            descricao: "",
-            quantidade: 1,
-            valorUnitario: 0.0,
-          }
-        ],
+const telefoneInicial = {
+  id:"",numero: ""
+}
+
+const clienteInicial = {
+  id: "",
+  nome: "",
+  endereco: {
+    rua: "",
+    bairro: "",
+    complemento: "",
+    cidade: "",
+  },
+  telefones: [{ id:"", numero: "" }],
+  ordemDeServicos: [{
+    observacoes: "",
+    itens: [
+        {
+          descricao: "",
+          quantidade: 1,
+          valorUnitario: 0.0,
+        }],
       }
     ],
-  };
+};
 
-  export default function ClienteForm({ clienteSelecionado, adicionarCliente, atualizarCliente, cancelar }) {
-    const [cliente, setCliente] = useState(clienteSelecionado || clienteInicial);
-    const [itens, setItens] = useState();
+export default function ClienteForm({ clienteSelecionado, adicionarCliente, atualizarCliente, cancelar }) {
+  const [cliente, setCliente] = useState({...clienteInicial, ...clienteSelecionado,});
+  const [itens, setItens] = useState();
 
-    useEffect(() => {
-      setCliente(clienteSelecionado || clienteInicial);
+  useEffect(() => {
+    setCliente({...clienteInicial, ...clienteSelecionado});
     }, [clienteSelecionado]);
 
-    const handleChangeInput = (e) => {
-      const { name, value } = e.target;
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    const campos = name.split(".");
 
-      if (name.includes('.')) {
-        const [parent, child] = name.split('.');
-        setCliente({ ...cliente, [parent]: { ...cliente[parent], [child]: value } });
-      } else {
-        setCliente({ ...cliente, [name]: value });
+    console.log("name: ", name)
+    console.log("campos: ", campos)
+
+    setCliente((prevCliente) => {
+      const novoCliente = structuredClone(prevCliente);
+
+      let atual = novoCliente;
+      for (let i = 0; i < campos.length - 1; i++) {
+        const chave = isNaN(campos[i]) ? campos[i] : parseInt(campos[i]);
+        atual = atual[chave];
       }
-    };
+
+      const ultimaChave = campos[campos.length - 1];
+      atual[ultimaChave] = value;
+
+      return novoCliente;
+    });
+  };
 
     const handleSubmit = (e) => {
       e.preventDefault();
-      cliente.id !== 0 ? atualizarCliente(cliente) : adicionarCliente(cliente);
+      cliente.id ? atualizarCliente(cliente) : adicionarCliente(cliente);
       setCliente(clienteInicial);
     };
 
     const adicionarItem = () => {
-      console.log("Antes: " + clienteInicial.ordemDeServicos[0].itens.length)
 
       setCliente((prevCliente)=>{
-        const novaOrdemDeServicos = prevCliente.ordemDeServicos.map((ordem , index) => {
+        let novaOrdemDeServicos = prevCliente.ordemDeServicos ?? [];
+         novaOrdemDeServicos = prevCliente.ordemDeServicos.map((ordem , index) => {
           if(index === 0){
             return {
               ...ordem, itens: [...ordem.itens, {...itemInicial}]
@@ -70,8 +81,6 @@ import React, { useEffect, useState } from "react";
           }
           return ordem;
         })
-        console.log("Depois: " + novaOrdemDeServicos.length)
-        console.log("Depois itens: " + novaOrdemDeServicos[0].itens.length)
         return{...prevCliente, ordemDeServicos: novaOrdemDeServicos}
       },[]);
 
@@ -81,30 +90,58 @@ import React, { useEffect, useState } from "react";
       setItens(itens.filter((item) => item.id =! id));
     }
 
+    const adicionarTelefone = () => {
+      setCliente ((prevCliente) => {
+        const novaListaTelefones = [...prevCliente.telefones, telefoneInicial];
+
+        return { ...prevCliente, telefones: novaListaTelefones}
+      })
+      console.log("Corpo do cliente com telefone adicionado: ", JSON.stringify(cliente, null,2));
+    }
+
 
     return (
       <form className="row g-6 form-bg" onSubmit={handleSubmit}>
-        <div className="col-md-12">
+        <div className="col-md-12 mb-3">
           <label className="form-label mb-1"><strong>Nome Completo:</strong></label>
-          <input className="form-control" name="nome" type="text" onChange={handleChangeInput} value={cliente.nome} />
+          <input className="form-control" name="nome" type="text" onChange={handleChange} value={cliente.nome} />
         </div>
 
-        <div className="col-md-12 mt-1">
-          <label className="form-label mb-1"><strong>Telefone:</strong></label>
-          <input className="form-control" name="telefone.numero" type="text" onChange={handleChangeInput} value={cliente.telefones[0].numero} />
+        <hr/>
+        <div className="d-flex justify-content-between align-itens-center mb-3">
+          <h5>Telefones</h5>
+
+          <button className="btn btn-primary" type="button" onClick={adicionarTelefone}>
+            <i className="bi bi-plus-lg"></i>
+          </button>
         </div>
+
+        {Array.isArray(cliente?.telefones) && cliente.telefones.map((telefone, index) => (
+            <div className="col-md-12 mt-1" key={index}>
+              <label className="form-label mb-1"><strong>{`Telefone ${index+1}`}:</strong></label>
+              <input className="form-control" name={`telefones.${index}.numero`} type="text"
+                     onChange={(e) => {handleChange(e)}}
+                     value={telefone.numero}
+              />
+            </div>
+        ))}
 
         {/*<div className="col-md-6">*/}
         {/*  <label className="form-label">CPF/CNPJ:</label>*/}
         {/*  <input className="form-control" name="cpfcnpj" type="text" onChange={handleChangeInput} value={cliente.telefones[0].numero} />*/}
         {/*</div>*/}
 
-        {["rua", "bairro", "complemento", "cidade"].map((campo) => (
-          <div className="col-md-6 mt-1" key={campo}>
-            <label className="form-label mb-1">{campo.charAt(0).toUpperCase() + campo.slice(1)}:</label>
-            <input className="form-control" name={`endereco.${campo}`} type="text" onChange={handleChangeInput} value={cliente.endereco[campo]} />
-          </div>
-        ))}
+
+          <h5>Endereço</h5>
+
+          {["rua", "bairro", "complemento", "cidade"].map((campo) => (
+              <div className="col-md-6 mt-1" key={campo}>
+                <label className="form-label mb-1">{campo.charAt(0).toUpperCase() + campo.slice(1)}:</label>
+                <input className="form-control" name={`endereco.${campo}`} type="text"
+                       onChange={(e)=>{handleChange(e)}}
+                       value={cliente.endereco.campo}/>
+              </div>
+          ))}
 
         <hr className="mt-3"/>
         <div className="d-flex justify-content-between align-itens-center mb-3">
@@ -116,7 +153,7 @@ import React, { useEffect, useState } from "react";
 
         </div>
 
-        {cliente.ordemDeServicos[0].itens.map((item, index) => (
+            {cliente.ordemDeServicos[0].itens.map((item, index) => (
             <div key={index} className="border rounded p-3 mb-3">
               <div><strong>Item {index + 1}</strong></div>
 
@@ -124,6 +161,7 @@ import React, { useEffect, useState } from "react";
                 <label className="mt-2">Descrição</label>
                 <textarea
                     className="form-control"
+                    name={`ordemDeServicos[0].itens[${index}].descricao`}
                     value={item.descricao}
                     onChange={(e) => {
                       const novaLista = [...cliente.ordemDeServicos];
@@ -139,6 +177,7 @@ import React, { useEffect, useState } from "react";
                   <input
                       type="number"
                       className="form-control"
+                      name={`ordemDeServicos[0].itens[${index}].quantidade`}
                       value={item.quantidade}
                       onChange={(e) => {
                         const novaLista = [...cliente.ordemDeServicos];
@@ -153,6 +192,7 @@ import React, { useEffect, useState } from "react";
                   <input
                       type="number"
                       className="form-control"
+                      name={`ordemDeServicos[0].itens[${index}].valorUnitario`}
                       value={item.valorUnitario}
                       onChange={(e) => {
                         const novaLista = [...cliente.ordemDeServicos];
@@ -167,7 +207,7 @@ import React, { useEffect, useState } from "react";
 
         <div className="d-flex justify-content-end col-12">
           <button className="btn btn-outline-success me-2" type="submit">
-            <i className="bi bi-check-circle"></i> Salvar
+            <i className="bi bi-check-circle"></i> {((cliente.id !== null) && (cliente.id !== undefined) &&(cliente.id !== "")) ? "Concluir" : "Salvar"}
           </button>
           <button className="btn btn-outline-warning" type="button" onClick={cancelar}>
             <i className="bi bi-x-circle"></i> Cancelar

@@ -4,9 +4,10 @@ import ClienteForm from "./ClienteForm";
 import ClienteLista from "./ClienteLista";
 import TitlePage from "../../components/TitlePage";
 import api from "../../api/atividade";
+import { toast } from 'react-toastify';
 
 const clienteInicial = {
-  id: 0,
+  id: "",
   nome: "",
   endereco: {
     rua: "",
@@ -25,7 +26,7 @@ const clienteInicial = {
       itens: [
         {
           descricao: "",
-          quantidade: 0,
+          quantidade: 1,
           valorUnitario: 0.0,
         }
       ],
@@ -72,7 +73,9 @@ export default function Cliente() {
   }, []);
 
   useEffect(() => {
-    carregarClientes();
+    carregarClientes().catch((erro) => {
+      console.error("Erro ao carregar clientes:", erro);
+    });
   }, [carregarClientes]);
 
 
@@ -81,8 +84,16 @@ export default function Cliente() {
       const response = await api.post("/geral", novoCliente);
       setClientes((prevClientes) => [...prevClientes, response.data]);
       handleClienteModal();
+
+      console.log("\nFunção AdicionaCliente chamada!\n");
+      if(response.status === 201){
+        toast.success("Cliente cadastrado com sucesso!");
+      }
+      await carregarClientes();
     } catch (error) {
       console.error("Erro ao adicionar cliente:", error);
+      const errorMessage = error.response?.data?.erro;
+      toast.error(errorMessage);
     }
   };
 
@@ -95,6 +106,7 @@ export default function Cliente() {
       );
 
       handleClienteModal();
+      carregarClientes();
     } catch (error) {
       console.error("Erro ao atualizar cliente:", error);
     }

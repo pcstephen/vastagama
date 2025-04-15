@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ff7af8e2-6da4-4214-9fa9-74d3c344bbf2" name="Changes" comment="">
+    <list default="true" id="ff7af8e2-6da4-4214-9fa9-74d3c344bbf2" name="Changes" comment="Redução de código para o setId de endereço, ItemOrdemServico, e OrdemServico">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/vastagama/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/vastagama/src/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/vastagama/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/vastagama/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/vastagama/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/vastagama/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/vastagama/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/vastagama/src/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/vastagama/src/pages/clientes/Cliente.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/vastagama/src/pages/clientes/Cliente.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/vastagama/src/pages/clientes/ClienteForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/vastagama/src/pages/clientes/ClienteForm.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/vastagama/src/pages/clientes/ClienteItem.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/vastagama/src/pages/clientes/ClienteItem.jsx" afterDir="false" />
@@ -17,8 +19,18 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -50,9 +62,15 @@
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/snap/intellij-idea-ultimate/583/plugins/javascript-plugin/jsLanguageServicesImpl/external&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.pcstephen.vastagama.infra.excecoes" />
+    </key>
+  </component>
   <component name="RunManager" selected="Spring Boot.VastagamaApplication (1)">
     <configuration name="VastagamaApplication (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
@@ -107,11 +125,50 @@
       <workItem from="1743691030322" duration="11464000" />
       <workItem from="1744044629448" duration="2084000" />
       <workItem from="1744057744786" duration="1317000" />
-      <workItem from="1744112364426" duration="4400000" />
+      <workItem from="1744112364426" duration="12917000" />
+      <workItem from="1744238035340" duration="4032000" />
+      <workItem from="1744312955570" duration="6312000" />
+      <workItem from="1744324872523" duration="1360000" />
+      <workItem from="1744459738748" duration="15138000" />
+      <workItem from="1744636451298" duration="3506000" />
+      <workItem from="1744733856074" duration="734000" />
+      <workItem from="1744737054510" duration="2507000" />
+      <workItem from="1744739732512" duration="5374000" />
+      <workItem from="1744746332047" duration="601000" />
+      <workItem from="1744748535558" duration="2964000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Redução de código para o setId de endereço, ItemOrdemServico, e OrdemServico" />
+    <option name="LAST_COMMIT_MESSAGE" value="Redução de código para o setId de endereço, ItemOrdemServico, e OrdemServico" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/backend/vastagama/src/main/java/com/pcstephen/vastagama/controladores/GeralController.java</url>
+          <line>29</line>
+          <properties class="com.pcstephen.vastagama.controladores.GeralController" method="cadastroNovo">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/backend/vastagama/src/main/java/com/pcstephen/vastagama/controladores/GeralController.java</url>
+          <line>32</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/projeto_vastagama$VastagamaApplication__1_.ic" NAME="VastagamaApplication (1) Coverage Results" MODIFIED="1744741020852" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
+      <FILTER>com.pcstephen.vastagama.*</FILTER>
+    </SUITE>
   </component>
 </project>
