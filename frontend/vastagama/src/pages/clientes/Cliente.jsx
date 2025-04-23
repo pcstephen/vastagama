@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 const clienteInicial = {
   id: "",
   nome: "",
+  codigoPublico:"",
   endereco: {
     rua: "",
     bairro: "",
@@ -144,7 +145,7 @@ export default function Cliente() {
 
       <Modal show={showClienteModal} onHide={handleClienteModal}>
         <Modal.Header closeButton>
-          <Modal.Title>{cliente.id === 0 ? "Novo Cliente" : `Editar Cliente ${cliente.id}`}</Modal.Title>
+          <Modal.Title>{cliente.id === "" ? "Novo Cliente" : `Editar Cliente ${cliente.id}`}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <ClienteForm

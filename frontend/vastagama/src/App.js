@@ -17,7 +17,7 @@ export default function App() {
       <Routes>
       <Route path="/clientes" element={<Cliente/>}> </Route>
       <Route path="/home" element={<Home/>}> </Route>
-      <Route path="/clientes/detalhe" element={<ClienteDetalhes/>}> </Route>
+      <Route path="clientes/:codPublico" element={<ClienteDetalhes/>}> </Route>
       </Routes>
         <ToastContainer position="top-right" autoclose={5000}/>
     </>

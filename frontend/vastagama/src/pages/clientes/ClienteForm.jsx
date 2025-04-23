@@ -12,6 +12,7 @@ const telefoneInicial = {
 
 const clienteInicial = {
   id: "",
+  codigoPublico:"",
   nome: "",
   endereco: {
     rua: "",
