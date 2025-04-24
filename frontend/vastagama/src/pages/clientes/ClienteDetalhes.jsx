@@ -98,7 +98,7 @@ export default function ClienteDetalhes() {
                 </tbody>
                 <tfoot>
                   <tr>
-                    <td colSpan="3" className="text-end"><strong>Total</strong></td>
+                    <td colSpan="3" className="text-start"><strong>Total</strong></td>
                     <td><strong>R$ {ordem.total.toFixed(2)}</strong></td>
                   </tr>
                 </tfoot>
