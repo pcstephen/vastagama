@@ -1,6 +1,5 @@
 package com.pcstephen.vastagama.controladores;
 
-import com.pcstephen.vastagama.dto.ClienteDTO;
 import com.pcstephen.vastagama.entidades.Cliente;
 import com.pcstephen.vastagama.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/clientes")

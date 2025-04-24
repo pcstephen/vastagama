@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import api from "../../api/atividade"; 
 import { useParams } from "react-router-dom";
 import Spinner from "react-bootstrap/Spinner";
-import { Button, Card, CardTitle, Row, Stack, Table } from "react-bootstrap";
+import { Button, Card, CardTitle, Row, Stack, Table, Toast } from "react-bootstrap";
 
 export default function ClienteDetalhes() {
   const { codPublico } = useParams();

@@ -92,9 +92,8 @@ export default function Cliente() {
       }
       await carregarClientes();
     } catch (error) {
-      console.error("Erro ao adicionar cliente:", error);
       const errorMessage = error.response?.data?.erro;
-      toast.error(errorMessage);
+      toast.error("Erro ao cadastrar cliente!",errorMessage);      
     }
   };
 
@@ -109,7 +108,8 @@ export default function Cliente() {
       handleClienteModal();
       carregarClientes();
     } catch (error) {
-      console.error("Erro ao atualizar cliente:", error);
+      toast.error("Erro ao atualizar cliente!\n ", error)
+      console.error(error.request.response.error);
     }
   };
 

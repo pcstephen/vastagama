@@ -2,7 +2,6 @@ package com.pcstephen.vastagama.services;
 
 import com.pcstephen.vastagama.dto.ClienteDTO;
 import com.pcstephen.vastagama.entidades.Cliente;
-import com.pcstephen.vastagama.entidades.Endereco;
 import com.pcstephen.vastagama.infra.excecoes.ObjetoInvalidoException;
 import com.pcstephen.vastagama.repositorios.ClienteRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;

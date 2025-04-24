@@ -207,11 +207,11 @@ export default function ClienteForm({ clienteSelecionado, adicionarCliente, atua
         ))}
 
         <div className="d-flex justify-content-end col-12">
-          <button className="btn btn-outline-success me-2" type="submit">
-            <i className="bi bi-check-circle"></i> {((cliente.id !== null) && (cliente.id !== undefined) &&(cliente.id !== "")) ? "Concluir" : "Salvar"}
-          </button>
-          <button className="btn btn-outline-warning" type="button" onClick={cancelar}>
+        <button className="btn btn-outline-warning me-2" type="button" onClick={cancelar}>
             <i className="bi bi-x-circle"></i> Cancelar
+          </button>
+          <button className="btn btn-outline-success " type="submit">
+            <i className="bi bi-check-circle"></i> {((cliente.id !== null) && (cliente.id !== undefined) &&(cliente.id !== "")) ? "Concluir" : "Salvar"}
           </button>
 
         </div>
