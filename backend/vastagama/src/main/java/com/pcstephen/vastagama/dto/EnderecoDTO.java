@@ -1,4 +1,6 @@
 package com.pcstephen.vastagama.dto;
 
-public record EnderecoDTO(String rua, String bairro, String complemento, String cidade) {
+import java.util.UUID;
+
+public record EnderecoDTO(UUID id ,String rua, String bairro, String complemento, String cidade) {
 }

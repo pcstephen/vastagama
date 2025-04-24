@@ -1,7 +1,16 @@
 package com.pcstephen.vastagama.controladores;
 
+import com.pcstephen.vastagama.dto.ClienteDTO;
+import com.pcstephen.vastagama.dto.TelefoneDTO;
 import com.pcstephen.vastagama.entidades.*;
+import com.pcstephen.vastagama.infra.excecoes.ObjetoInvalidoException;
+import com.pcstephen.vastagama.infra.excecoes.ObjetoNaoEncontradoException;
 import com.pcstephen.vastagama.services.*;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -74,5 +83,33 @@ public class GeralController {
         }
 
         return new ResponseEntity<>(novoCliente, HttpStatus.CREATED);
+    }
+
+
+    @Transactional
+    @PatchMapping("/{id}")
+    public ResponseEntity<Cliente> editarCliente(@PathVariable UUID id, @RequestBody ClienteDTO dto){
+        Optional<Cliente> clienteEditado = clienteService.buscarPorId(id);
+
+        if (clienteEditado.isEmpty()) {
+            throw new ObjetoNaoEncontradoException("Erro: Cliente não encontrado!");
+        }
+
+        Cliente cliente = clienteEditado.get();
+        clienteService.editarCliente(id, dto);
+
+        if (dto.enderecoDTO() != null) {
+            Endereco enderecoAtualizado = enderecoService.atualizar(dto.enderecoDTO().id(), dto.enderecoDTO());
+            cliente.setEndereco(enderecoAtualizado);
+        } else throw new ObjetoInvalidoException("Erro: Endereco não pode ser nulo!");
+
+        if(dto.telefonesDTO() != null){
+            for (TelefoneDTO telefone : dto.telefonesDTO()) {
+                Telefone telefoneEditado = telefoneService.editarTelefone(telefone.id(), telefone);
+                telefoneEditado.setCliente(cliente);
+            }
+        } else throw new ObjetoInvalidoException("Erro: Lista de telefones não pode ser nula ou vazia.");
+        
+        return  ResponseEntity.ok().body(cliente);
     }
 }

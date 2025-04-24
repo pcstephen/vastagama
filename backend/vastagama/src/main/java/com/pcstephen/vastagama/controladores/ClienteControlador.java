@@ -43,9 +43,9 @@ public class ClienteControlador {
 //        return ResponseEntity.status(HttpStatus.CREATED).body("Cliente cadastrado com sucesso!");
     }
 
-    @PutMapping("/{id}/nome")
-    public ResponseEntity<String> atualizar(@PathVariable UUID id, @RequestBody ClienteDTO dto) {
-        service.editarCliente(id, dto);
-        return ResponseEntity.ok("Cliente editado com Sucesso!");
-    }
+    // @PatchMapping("/{id}")
+    // public ResponseEntity<String> atualizar(@PathVariable UUID id, @RequestBody ClienteDTO dto) {
+    //     service.editarCliente(id, dto);
+    //     return ResponseEntity.ok("Cliente editado com Sucesso!");
+    // }
 }

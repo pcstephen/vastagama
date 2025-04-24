@@ -21,7 +21,7 @@ public class EnderecoControlador {
 
     @GetMapping
     private ResponseEntity<List<Endereco>> findAll(){
-        List enderecos = service.findAll();
+        List<Endereco> enderecos = service.findAll();
         return new ResponseEntity<>(enderecos, HttpStatus.OK);
     }
 
@@ -31,7 +31,7 @@ public class EnderecoControlador {
         return ResponseEntity.status(HttpStatus.CREATED).body("Endereco cadastrado com sucesso!");
     }
 
-    @PutMapping("/{id}/nome")
+    @PutMapping("/{id}")
     public ResponseEntity<String> atualizar(@PathVariable UUID id, @RequestBody EnderecoDTO enderecoDTO) {
         service.atualizar(id, enderecoDTO);
         return ResponseEntity.ok("Endereco editado com Sucesso!");

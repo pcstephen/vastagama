@@ -1,6 +1,5 @@
 package com.pcstephen.vastagama.repositorios;
 
-import com.pcstephen.vastagama.entidades.Cliente;
 import com.pcstephen.vastagama.entidades.Telefone;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

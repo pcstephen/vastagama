@@ -1,7 +1,9 @@
 package com.pcstephen.vastagama.services;
 
+import com.pcstephen.vastagama.dto.TelefoneDTO;
 import com.pcstephen.vastagama.entidades.Telefone;
 import com.pcstephen.vastagama.infra.excecoes.ObjetoInvalidoException;
+import com.pcstephen.vastagama.infra.excecoes.ObjetoNaoEncontradoException;
 import com.pcstephen.vastagama.repositorios.TelefoneRepositorio;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,12 +34,12 @@ public class TelefoneService {
 
 
     @Transactional
-    public void editarTelefone(UUID id,Telefone telefone){
-        Telefone telefoneEditado = buscarPorId(id).orElseThrow(()-> new ObjetoInvalidoException("Telefone não encontrado!"));
-        telefoneEditado.setNumero(telefone.getNumero());
+    public Telefone editarTelefone(UUID id,TelefoneDTO telefone){
+        Telefone telefoneEditado = buscarPorId(id).orElseThrow(()-> new ObjetoNaoEncontradoException("Telefone não encontrado!"));
+        telefoneEditado.setNumero(telefone.numero());
 
-        conferirDados(telefone);
-        repo.save(telefoneEditado);
+        conferirDados(telefoneEditado);
+        return repo.save(telefoneEditado);
     }
 
     @Transactional

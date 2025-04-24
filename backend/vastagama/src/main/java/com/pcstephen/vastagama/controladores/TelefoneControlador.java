@@ -20,7 +20,7 @@ public class TelefoneControlador {
 
     @GetMapping
     private ResponseEntity<List<Telefone>> findAll(){
-        List telefones = service.findAll();
+        List<Telefone> telefones = service.findAll();
         return new ResponseEntity<>(telefones, HttpStatus.OK);
     }
 
@@ -30,10 +30,10 @@ public class TelefoneControlador {
         return ResponseEntity.status(HttpStatus.CREATED).body("Telefone cadastrado com sucesso!");
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<String> atualizar(@PathVariable UUID id,@RequestBody Telefone telefone) {
+    // @PutMapping("/{id}")
+    // public ResponseEntity<String> atualizar(@PathVariable UUID id,@RequestBody Telefone telefone) {
 
-        service.editarTelefone(id ,telefone);
-        return ResponseEntity.ok("Telefone editado com Sucesso!");
-    }
+    //     service.editarTelefone(id ,telefone);
+    //     return ResponseEntity.ok("Telefone editado com Sucesso!");
+    // }
 }

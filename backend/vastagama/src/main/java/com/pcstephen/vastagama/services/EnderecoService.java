@@ -3,6 +3,7 @@ package com.pcstephen.vastagama.services;
 import com.pcstephen.vastagama.dto.EnderecoDTO;
 import com.pcstephen.vastagama.entidades.Endereco;
 import com.pcstephen.vastagama.infra.excecoes.ObjetoInvalidoException;
+import com.pcstephen.vastagama.infra.excecoes.ObjetoNaoEncontradoException;
 import com.pcstephen.vastagama.repositorios.EnderecoRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,15 +35,15 @@ public class EnderecoService {
     }
 
     @Transactional
-    public void atualizar(UUID id, EnderecoDTO enderecoDTO){
-        Endereco enderecoEditado = buscarPorId(id).orElseThrow(()-> new ObjetoInvalidoException("Endereco não encontrado!"));
+    public Endereco atualizar(UUID id, EnderecoDTO enderecoDTO){
+        Endereco enderecoEditado = buscarPorId(id).orElseThrow(()-> new ObjetoNaoEncontradoException("Endereco não encontrado!"));
         enderecoEditado.setRua(enderecoDTO.rua());
-        enderecoEditado.setRua(enderecoDTO.bairro());
-        enderecoEditado.setRua(enderecoDTO.complemento());
-        enderecoEditado.setRua(enderecoDTO.cidade());
+        enderecoEditado.setBairro(enderecoDTO.bairro());
+        enderecoEditado.setComplemento(enderecoDTO.complemento());
+        enderecoEditado.setCidade(enderecoDTO.cidade());
 
         confereDados(enderecoEditado);
-        repo.save(enderecoEditado);
+        return repo.save(enderecoEditado);
     }
 
     @Transactional

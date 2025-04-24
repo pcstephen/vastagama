@@ -1,6 +1,5 @@
 package com.pcstephen.vastagama.controladores;
 
-import com.pcstephen.vastagama.entidades.ItemOrdemServico;
 import com.pcstephen.vastagama.entidades.OrdemServico;
 import com.pcstephen.vastagama.services.OrdemServicoService;
 import org.springframework.beans.factory.annotation.Autowired;
