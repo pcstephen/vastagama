@@ -41,6 +41,7 @@ export default function Cliente() {
   const [cliente, setCliente] = useState(clienteInicial);
   const [clientes, setClientes] = useState([]);
   const [clienteParaExcluir, setClienteParaExcluir] = useState(clienteInicial);
+  const [modoEdicaoSimples, setModoEdicaoSimples] = useState(false);
 
   const handleClienteModal = () => {
     setShowClienteModal(!showClienteModal);
@@ -97,18 +98,18 @@ export default function Cliente() {
     }
   };
 
-  const atualizarCliente = async (clienteAtualizado) => {
+  const atualizarCliente = async (codigoPublico ,dadosAtualizados) => {
     try {
-      await api.patch(`/clientes/${clienteAtualizado.id}`, { nome: clienteAtualizado.nome });
+      await api.patch(`/clientes/${codigoPublico}`, dadosAtualizados);
 
       setClientes((prevClientes) =>
-        prevClientes.map((c) => (c.id === clienteAtualizado.id ? { ...c, nome: clienteAtualizado.nome } : c))
+        prevClientes.map((c) => (c.codigoPublico === codigoPublico ? { ...c, ...dadosAtualizados } : c))
       );
 
       handleClienteModal();
       carregarClientes();
     } catch (error) {
-      toast.error("Erro ao atualizar cliente!\n ", error)
+      toast.error("Erro ao atualizar cliente!\n ", error);
       console.error(error.request.response.error);
     }
   };
@@ -123,10 +124,11 @@ export default function Cliente() {
     }
   };
 
-  const editarCliente = (id) => {
-    const clienteEncontrado = clientes.find((c) => c.id === id);
+  const editarCliente = (codigoPublico, edicaoSimples = true) => {
+    const clienteEncontrado = clientes.find((c) => c.codigoPublico === codigoPublico);
     if (clienteEncontrado) {
       setCliente(clienteEncontrado);
+      setModoEdicaoSimples(edicaoSimples);
       handleClienteModal();
     }
   };
@@ -141,7 +143,7 @@ export default function Cliente() {
     <>
       <TitlePage title="Clientes" novoCliente={novoCliente} />
 
-      <ClienteLista clientes={clientes} pegarCliente={editarCliente} handleConfirmModal={abrirConfirmacaoExclusao} />
+      <ClienteLista clientes={clientes} pegarCliente={(codigoPublico) => editarCliente(codigoPublico, true)} handleConfirmModal={abrirConfirmacaoExclusao} />
 
       <Modal show={showClienteModal} onHide={handleClienteModal}>
         <Modal.Header closeButton>
@@ -153,6 +155,7 @@ export default function Cliente() {
             adicionarCliente={adicionarCliente}
             atualizarCliente={atualizarCliente}
             cancelar={handleClienteModal}
+            modoEdicaoSimples={modoEdicaoSimples}
           />
         </Modal.Body>
       </Modal>

@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import { Button } from "react-bootstrap";
 
 const itemInicial = {
     descricao: "",
@@ -33,7 +34,7 @@ const clienteInicial = {
     ],
 };
 
-export default function ClienteForm({ clienteSelecionado, adicionarCliente, atualizarCliente, cancelar }) {
+export default function ClienteForm({ clienteSelecionado, adicionarCliente, atualizarCliente, cancelar , modoEdicaoSimples}) {
   const [cliente, setCliente] = useState({...clienteInicial, ...clienteSelecionado,});
   const [itens, setItens] = useState();
 
@@ -87,8 +88,13 @@ export default function ClienteForm({ clienteSelecionado, adicionarCliente, atua
 
     };
 
-    const removerItem = (id) =>{
-      setItens(itens.filter((item) => item.id =! id));
+    const removerItem = (index) =>{
+      setCliente((prevCliente)=>  {
+        const novaListaOrdens = [...prevCliente.ordemDeServicos];
+        novaListaOrdens[0].itens = novaListaOrdens[0].itens.filter((_, i) => i !== index);
+        return { ...prevCliente, ordemDeServicos: novaListaOrdens };
+      });
+      
     }
 
     const adicionarTelefone = () => {
@@ -109,7 +115,7 @@ export default function ClienteForm({ clienteSelecionado, adicionarCliente, atua
         </div>
 
         <hr/>
-        <div className="d-flex justify-content-between align-itens-center mb-3">
+        <div className="d-flex justify-content-between align-itens-center mb-1">
           <h5>Telefones</h5>
 
           <button className="btn btn-primary" type="button" onClick={adicionarTelefone}>
@@ -132,19 +138,23 @@ export default function ClienteForm({ clienteSelecionado, adicionarCliente, atua
         {/*  <input className="form-control" name="cpfcnpj" type="text" onChange={handleChangeInput} value={cliente.telefones[0].numero} />*/}
         {/*</div>*/}
 
+        <hr/>
 
-          <h5>Endereço</h5>
+        <h5 className="mt-2">Endereço</h5>
 
           {["rua", "bairro", "complemento", "cidade"].map((campo) => (
               <div className="col-md-6 mt-1" key={campo}>
                 <label className="form-label mb-1">{campo.charAt(0).toUpperCase() + campo.slice(1)}:</label>
                 <input className="form-control" name={`endereco.${campo}`} type="text"
                        onChange={(e)=>{handleChange(e)}}
-                       value={cliente.endereco.campo}/>
+                       value={cliente.endereco[campo]}/>
               </div>
           ))}
 
         <hr className="mt-3"/>
+        {!modoEdicaoSimples && (
+
+<>
         <div className="d-flex justify-content-between align-itens-center mb-3">
 
           <h5>Ordem de Serviço</h5>
@@ -156,7 +166,11 @@ export default function ClienteForm({ clienteSelecionado, adicionarCliente, atua
 
             {cliente.ordemDeServicos[0].itens.map((item, index) => (
             <div key={index} className="border rounded p-3 mb-3">
-              <div><strong>Item {index + 1}</strong></div>
+              <div className="d-flex justify-content-between"><strong>Item {index + 1}</strong>
+              {cliente.ordemDeServicos[0].itens.length >1 && (<button  className="btn btn-danger btn-sm" type="button" onClick={()=> removerItem(index)}>
+                <i className="bi bi-trash "></i> Remover item
+              </button> )}             
+          </div>
 
               <div className="mb-3">
                 <label className="mt-2">Descrição</label>
@@ -205,6 +219,9 @@ export default function ClienteForm({ clienteSelecionado, adicionarCliente, atua
               </div>
             </div>
         ))}
+        
+        </>
+      )}
 
         <div className="d-flex justify-content-end col-12">
         <button className="btn btn-outline-warning me-2" type="button" onClick={cancelar}>
