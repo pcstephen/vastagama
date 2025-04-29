@@ -42,32 +42,86 @@ export default function ClienteForm({ clienteSelecionado, adicionarCliente, atua
     setCliente({...clienteInicial, ...clienteSelecionado});
     }, [clienteSelecionado]);
 
-  const handleChange = (e) => {
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   const campos = name.split(".");
+
+  //   console.log("name: ", name)
+  //   console.log("campos: ", campos)
+
+  //   setCliente((prevCliente) => {
+  //     const novoCliente = structuredClone(prevCliente);
+
+  //     let atual = novoCliente;
+  //     for (let i = 0; i < campos.length - 1; i++) {
+  //       const chave = isNaN(campos[i]) ? campos[i] : parseInt(campos[i]);
+  //       atual = atual[chave];
+  //     }
+
+  //     const ultimaChave = campos[campos.length - 1];
+  //     atual[ultimaChave] = value;
+
+  //     return novoCliente;
+  //   });
+  // };
+
+  const handleChange = (e) =>{
     const { name, value } = e.target;
-    const campos = name.split(".");
 
-    console.log("name: ", name)
-    console.log("campos: ", campos)
+    setCliente({
+      ...cliente, [name] : value });
+  }
 
-    setCliente((prevCliente) => {
-      const novoCliente = structuredClone(prevCliente);
+  const handleChangeEndereco = (e) => {
+    const {name, value} = e.target;
 
-      let atual = novoCliente;
-      for (let i = 0; i < campos.length - 1; i++) {
-        const chave = isNaN(campos[i]) ? campos[i] : parseInt(campos[i]);
-        atual = atual[chave];
-      }
-
-      const ultimaChave = campos[campos.length - 1];
-      atual[ultimaChave] = value;
-
-      return novoCliente;
+    setCliente({
+      ...cliente,
+      endereco : {...cliente.endereco, [name] : value}
     });
-  };
+  }
+
+  const handleChangeTelefones = (index, value) =>{
+      const novosTelefones = [...cliente.telefones];
+
+      novosTelefones[index].numero = value;
+      setCliente({...cliente,
+        telefones: novosTelefones
+      });
+  }
+
+  const handleChangeOrdemServicos = (e) => {
+    const { name, value } = e.target;
+    
+    const novaOrdem = [...cliente.ordemDeServicos];
+    novaOrdem[0][name] = value;
+    
+    setCliente({...cliente,
+      ordemDeServicos: novaOrdem
+    });
+  }
+
+  const handleChangeItem = (index, field, value) => {
+    const novaOrdem = [...cliente.ordemDeServicos];
+
+    novaOrdem[0].itens[index][field] = field === "quantidade" || field === "valorUnitario" ? parseFloat(value) : value;
+    setCliente({...cliente, 
+      ordemDeServicos: novaOrdem
+    });
+  }
+
+
 
     const handleSubmit = (e) => {
       e.preventDefault();
-      cliente.id ? atualizarCliente(cliente) : adicionarCliente(cliente);
+
+      if(cliente.codigoPublico){
+        const camposAlterados = pegarCamposAlterados(clienteSelecionado, cliente);
+        console.log("Campos alterados: ",camposAlterados);
+        atualizarCliente(cliente.codigoPublico, camposAlterados);
+      }
+      else {adicionarCliente(cliente);}
+
       setCliente(clienteInicial);
     };
 
@@ -106,6 +160,17 @@ export default function ClienteForm({ clienteSelecionado, adicionarCliente, atua
       console.log("Corpo do cliente com telefone adicionado: ", JSON.stringify(cliente, null,2));
     }
 
+    const pegarCamposAlterados = ( original, alterado ) => {
+      const camposAlterados = {};
+      for(const chave in alterado){
+        if(alterado[chave] !== original[chave]){
+          camposAlterados[chave] = alterado[chave];
+        }
+      }
+      return camposAlterados;
+
+    }
+
 
     return (
       <form className="row g-6 form-bg" onSubmit={handleSubmit}>
@@ -127,7 +192,7 @@ export default function ClienteForm({ clienteSelecionado, adicionarCliente, atua
             <div className="col-md-12 mt-1" key={index}>
               <label className="form-label mb-1"><strong>{`Telefone ${index+1}`}:</strong></label>
               <input className="form-control" name={`telefones.${index}.numero`} type="text"
-                     onChange={(e) => {handleChange(e)}}
+                     onChange={(e) => {handleChangeTelefones(index, e.target.value)}}
                      value={telefone.numero}
               />
             </div>
@@ -145,8 +210,8 @@ export default function ClienteForm({ clienteSelecionado, adicionarCliente, atua
           {["rua", "bairro", "complemento", "cidade"].map((campo) => (
               <div className="col-md-6 mt-1" key={campo}>
                 <label className="form-label mb-1">{campo.charAt(0).toUpperCase() + campo.slice(1)}:</label>
-                <input className="form-control" name={`endereco.${campo}`} type="text"
-                       onChange={(e)=>{handleChange(e)}}
+                <input className="form-control" name={`${campo}`} type="text"
+                       onChange={handleChangeEndereco}
                        value={cliente.endereco[campo]}/>
               </div>
           ))}
@@ -176,13 +241,9 @@ export default function ClienteForm({ clienteSelecionado, adicionarCliente, atua
                 <label className="mt-2">Descrição</label>
                 <textarea
                     className="form-control"
-                    name={`ordemDeServicos[0].itens[${index}].descricao`}
+                    name={`item.descricao`}
                     value={item.descricao}
-                    onChange={(e) => {
-                      const novaLista = [...cliente.ordemDeServicos];
-                      novaLista[0].itens[index].descricao = e.target.value;
-                      setCliente({ ...cliente, ordemDeServicos: novaLista });
-                    }}
+                    onChange={(e)=>handleChangeItem(index, "descricao", e.target.value)}
                 />
               </div>
 
@@ -192,13 +253,9 @@ export default function ClienteForm({ clienteSelecionado, adicionarCliente, atua
                   <input
                       type="number"
                       className="form-control"
-                      name={`ordemDeServicos[0].itens[${index}].quantidade`}
+                      name={`item.quantidade`}
                       value={item.quantidade}
-                      onChange={(e) => {
-                        const novaLista = [...cliente.ordemDeServicos];
-                        novaLista[0].itens[index].quantidade = parseInt(e.target.value);
-                        setCliente({ ...cliente, ordemDeServicos: novaLista });
-                      }}
+                      onChange={(e) => handleChangeItem(index, "quantidade", e.target.value)}
                   />
                 </div>
 
@@ -207,13 +264,9 @@ export default function ClienteForm({ clienteSelecionado, adicionarCliente, atua
                   <input
                       type="number"
                       className="form-control"
-                      name={`ordemDeServicos[0].itens[${index}].valorUnitario`}
+                      name={`item.valorUnitario`}
                       value={item.valorUnitario}
-                      onChange={(e) => {
-                        const novaLista = [...cliente.ordemDeServicos];
-                        novaLista[0].itens[index].valorUnitario = parseFloat(e.target.value);
-                        setCliente({ ...cliente, ordemDeServicos: novaLista });
-                      }}
+                      onChange={(e) => handleChangeItem(index, "valorUnitario", e.target.value)}
                   />
                 </div>
               </div>

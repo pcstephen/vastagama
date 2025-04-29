@@ -56,8 +56,8 @@ public class ClienteService {
     }
 
     @Transactional
-    public void editarCliente(UUID id, ClienteDTO dto){
-        Cliente clienteEditado = buscarPorId(id).orElseThrow(()-> new ObjetoInvalidoException("Erro: Cliente não encontrado!"));
+    public void editarCliente(String codPub, ClienteDTO dto){
+        Cliente clienteEditado = buscarPorCodigoPublico(codPub).orElseThrow(()-> new ObjetoInvalidoException("Erro: Cliente não encontrado!"));
 
         if(dto.nome() == null || dto.nome().trim().isBlank()){
             throw new ObjetoInvalidoException("Erro: Nome do cliente não pode ser vazio!");

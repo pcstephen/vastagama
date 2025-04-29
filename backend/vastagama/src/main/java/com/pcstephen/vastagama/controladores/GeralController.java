@@ -85,28 +85,28 @@ public class GeralController {
 
 
     @Transactional
-    @PatchMapping("/{id}")
-    public ResponseEntity<Cliente> editarCliente(@PathVariable UUID id, @RequestBody ClienteDTO dto){
-        Optional<Cliente> clienteEditado = clienteService.buscarPorId(id);
+    @PatchMapping("/{codPub}")
+    public ResponseEntity<Cliente> editarCliente(@PathVariable String codPub, @RequestBody ClienteDTO dto){
+        Optional<Cliente> clienteEditado = clienteService.buscarPorCodigoPublico(codPub);
 
         if (clienteEditado.isEmpty()) {
             throw new ObjetoNaoEncontradoException("Erro: Cliente não encontrado!");
         }
 
         Cliente cliente = clienteEditado.get();
-        clienteService.editarCliente(id, dto);
+        clienteService.editarCliente(codPub, dto);
 
-        if (dto.enderecoDTO() != null) {
-            Endereco enderecoAtualizado = enderecoService.atualizar(dto.enderecoDTO().id(), dto.enderecoDTO());
+        if (dto.endereco() != null) {
+            Endereco enderecoAtualizado = enderecoService.atualizar(dto.endereco().id(), dto.endereco());
             cliente.setEndereco(enderecoAtualizado);
-        } else throw new ObjetoInvalidoException("Erro: Endereco não pode ser nulo!");
+        }
 
-        if(dto.telefonesDTO() != null){
-            for (TelefoneDTO telefone : dto.telefonesDTO()) {
+        if(dto.telefones() != null){
+            for (TelefoneDTO telefone : dto.telefones()) {
                 Telefone telefoneEditado = telefoneService.editarTelefone(telefone.id(), telefone);
                 telefoneEditado.setCliente(cliente);
             }
-        } else throw new ObjetoInvalidoException("Erro: Lista de telefones não pode ser nula ou vazia.");
+        }
         
         return  ResponseEntity.ok().body(cliente);
     }

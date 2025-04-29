@@ -100,15 +100,16 @@ export default function Cliente() {
 
   const atualizarCliente = async (codigoPublico ,dadosAtualizados) => {
     try {
-      await api.patch(`/clientes/${codigoPublico}`, dadosAtualizados);
+      await api.patch(`/geral/${codigoPublico}`, dadosAtualizados);
 
       setClientes((prevClientes) =>
         prevClientes.map((c) => (c.codigoPublico === codigoPublico ? { ...c, ...dadosAtualizados } : c))
       );
-
+      toast.success("Cliente editado com sucesso!");
       handleClienteModal();
       carregarClientes();
     } catch (error) {
+      console.log("JSON enviado para requisição: ", dadosAtualizados);
       toast.error("Erro ao atualizar cliente!\n ", error);
       console.error(error.request.response.error);
     }
@@ -136,6 +137,7 @@ export default function Cliente() {
   // Criar novo cliente
   const novoCliente = () => {
     setCliente(clienteInicial);
+    setModoEdicaoSimples(false);
     handleClienteModal();
   };
 
