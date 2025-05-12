@@ -34,3 +34,7 @@ build/
 
 ### ENV FILES ###
 .env
+
+### Chaves ###
+app.key
+app.pub
