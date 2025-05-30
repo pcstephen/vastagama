@@ -35,9 +35,9 @@ public class UsuarioService {
         } if(usuarioDTO.getPassword().isBlank()){
             throw new ObjetoInvalidoException("Senha inválida!");
         }
-        Optional<Usuario> existente = repo.findByUsername(usuarioDTO.getUsername().trim());
+        Usuario existente = repo.findByUsername(usuarioDTO.getUsername().trim());
         
-        if (existente.isPresent()) {
+        if (existente != null) {
             throw new ObjetoInvalidoException("Nome de usuário já em uso!");
         } else {
             Usuario novoUsuario = new Usuario();            
@@ -46,7 +46,6 @@ public class UsuarioService {
             }
             novoUsuario.setUsername(usuarioDTO.getUsername());
             novoUsuario.setPassword(passwordEncoder.encode(usuarioDTO.getPassword()));
-            novoUsuario.setRoles(Set.of(basicRole));
             return repo.save(novoUsuario);
         }
 

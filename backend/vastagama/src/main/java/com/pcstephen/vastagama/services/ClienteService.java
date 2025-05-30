@@ -56,14 +56,14 @@ public class ClienteService {
     }
 
     @Transactional
-    public void editarCliente(String codPub, ClienteDTO dto){
+    public Cliente editarCliente(String codPub, ClienteDTO dto){
         Cliente clienteEditado = buscarPorCodigoPublico(codPub).orElseThrow(()-> new ObjetoInvalidoException("Erro: Cliente não encontrado!"));
 
         if(dto.nome() == null || dto.nome().trim().isBlank()){
             throw new ObjetoInvalidoException("Erro: Nome do cliente não pode ser vazio!");
         }
         clienteEditado.setNome(dto.nome());
-        repo.save(clienteEditado);
+        return repo.save(clienteEditado);
     }
 
 

@@ -71,6 +71,7 @@ export default function Cliente() {
       setClientes(response.data);
     } catch (error) {
       console.error("Erro ao buscar clientes:", error);
+      alert("Erro ao buscar clientes!");
     }
   }, []);
 

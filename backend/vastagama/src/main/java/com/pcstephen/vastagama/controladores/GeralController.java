@@ -3,12 +3,10 @@ package com.pcstephen.vastagama.controladores;
 import com.pcstephen.vastagama.dto.ClienteDTO;
 import com.pcstephen.vastagama.dto.TelefoneDTO;
 import com.pcstephen.vastagama.entidades.*;
-import com.pcstephen.vastagama.infra.excecoes.ObjetoInvalidoException;
 import com.pcstephen.vastagama.infra.excecoes.ObjetoNaoEncontradoException;
 import com.pcstephen.vastagama.services.*;
 
 import java.util.Optional;
-import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
