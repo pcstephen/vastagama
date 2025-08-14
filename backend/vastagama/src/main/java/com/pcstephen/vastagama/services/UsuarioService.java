@@ -1,54 +1,54 @@
 package com.pcstephen.vastagama.services;
 
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.pcstephen.vastagama.dto.UsuarioDTO;
+import com.pcstephen.vastagama.dto.CriarUsuarioDTO;
+import com.pcstephen.vastagama.dto.JWTTokenDTO;
+import com.pcstephen.vastagama.dto.LoginRequest;
 import com.pcstephen.vastagama.entidades.Role;
 import com.pcstephen.vastagama.entidades.Usuario;
-import com.pcstephen.vastagama.infra.excecoes.ObjetoInvalidoException;
-import com.pcstephen.vastagama.repositorios.RoleRepository;
+import com.pcstephen.vastagama.infra.security.SecurityConfiguration;
+import com.pcstephen.vastagama.infra.security.TokenService;
+import com.pcstephen.vastagama.infra.security.userdetails.UserDetailsImpl;
 import com.pcstephen.vastagama.repositorios.UsuarioRepositorio;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Service;
 
 @Service
 public class UsuarioService {
 
     @Autowired
-    private UsuarioRepositorio repo;
+    private AuthenticationManager authenticationManager;
+
     @Autowired
-    private RoleRepository roleRepository;
-    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-    
-    @Transactional
-    public Usuario cadastrarUsuario(UsuarioDTO usuarioDTO){
+    private TokenService jwtTokenService;
 
-        Role basicRole = roleRepository.findByName(Role.values.BASIC.name());
+    @Autowired
+    private UsuarioRepositorio userRepository;
 
-        if(usuarioDTO.getUsername().trim().isBlank()){
-            throw new ObjetoInvalidoException("Nome inválido!");
-        } if(usuarioDTO.getPassword().isBlank()){
-            throw new ObjetoInvalidoException("Senha inválida!");
-        }
-        Usuario existente = repo.findByUsername(usuarioDTO.getUsername().trim());
-        
-        if (existente != null) {
-            throw new ObjetoInvalidoException("Nome de usuário já em uso!");
-        } else {
-            Usuario novoUsuario = new Usuario();            
-            if(novoUsuario.getId() == null){
-                novoUsuario.setId(UUID.randomUUID());
-            }
-            novoUsuario.setUsername(usuarioDTO.getUsername());
-            novoUsuario.setPassword(passwordEncoder.encode(usuarioDTO.getPassword()));
-            return repo.save(novoUsuario);
-        }
+    @Autowired
+    private SecurityConfiguration securityConfiguration;
 
+    // Método responsável por autenticar um usuário e retornar um token JWT
+    public JWTTokenDTO autenticarUsuario(LoginRequest loginRequest){
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
+                new UsernamePasswordAuthenticationToken(loginRequest.email(), loginRequest.password());
+
+        Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
+        return new JWTTokenDTO(jwtTokenService.gerarTokenJWT(userDetails));
     }
-    
+
+    public void criarUsuario(CriarUsuarioDTO criarUsuarioDTO){
+        Usuario usuario = Usuario.builder().
+        email(criarUsuarioDTO.email()).
+                username(criarUsuarioDTO.username())
+                .password(securityConfiguration.bCryptPasswordEncoder().encode(criarUsuarioDTO.password()))
+                .roles(java.util.List.of(Role.builder().name(criarUsuarioDTO.role()).build())).build();
+
+        userRepository.save(usuario);
+    }
 }

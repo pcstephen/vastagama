@@ -1,39 +1,24 @@
 package com.pcstephen.vastagama.entidades;
 
+import com.pcstephen.vastagama.enumeradores.RoleEnum;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "roles")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
 
-    public Long getId() {
-        return id;
-    }
+    @Enumerated(EnumType.STRING)
+    private RoleEnum name;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public enum values{
-        ADMIN(1L),
-        BASIC(2L);
-
-        private Long roleId;
-
-        values(Long roleId) {
-            this.roleId = roleId;
-        }
-    }
 }

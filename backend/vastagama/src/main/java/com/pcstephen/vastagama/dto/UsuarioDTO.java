@@ -1,22 +1,8 @@
 package com.pcstephen.vastagama.dto;
 
-public class UsuarioDTO {
-    
-    private String username;
-    private String password;
-    
-    public String getUsername() {
-        return username;
-    }
-    public void setUsername(String username) {
-        this.username = username;
-    }
-    public String getPassword() {
-        return password;
-    }
-    public void setPassword(String password) {
-        this.password = password;
-    }
+import com.pcstephen.vastagama.entidades.Role;
 
-    
+import java.util.List;
+
+public record UsuarioDTO (Long id, String email, String username, String password, List<Role> roles) {
 }
