@@ -1,27 +1,17 @@
 package com.pcstephen.vastagama.infra.security;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.JWTCreationException;
-import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.pcstephen.vastagama.infra.security.userdetails.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
@@ -39,17 +29,17 @@ public class SecurityConfiguration {
     };
 
     // Endpoints que requerem autenticação para serem acessados
-    public static final String [] ENDPOINTS_COM_AUTENTICACAO_NECESSARIA = {
+    public static final String[] ENDPOINTS_COM_AUTENTICACAO_NECESSARIA = {
             "/users/teste"
     };
 
     // Endpoints que só podem ser acessador por usuários com permissão de cliente
-    public static final String [] ENDPOINTS_USER = {
+    public static final String[] ENDPOINTS_USER = {
             "/users/teste/user"
     };
 
     // Endpoints que só podem ser acessador por usuários com permissão de administrador
-    public static final String [] ENDPOINTS_ADMIN = {
+    public static final String[] ENDPOINTS_ADMIN = {
             "/users/teste/admin"
     };
 
@@ -63,9 +53,9 @@ public class SecurityConfiguration {
                         .requestMatchers(ENDPOINTS_USER).hasRole("USER")
                         .requestMatchers(ENDPOINTS_COM_AUTENTICACAO_NECESSARIA).authenticated()
                         .anyRequest().denyAll())
-                        // Adiciona o filtro de autenticação de usuário que criamos, antes do filtro de segurança padrão do Spring Security
-                        .addFilterBefore(filtroAutenticacaoUsuario, UsernamePasswordAuthenticationFilter.class)
-                        .build();
+                // Adiciona o filtro de autenticação de usuário que criamos, antes do filtro de segurança padrão do Spring Security
+                .addFilterBefore(filtroAutenticacaoUsuario, UsernamePasswordAuthenticationFilter.class)
+                .build();
     }
 
     @Bean

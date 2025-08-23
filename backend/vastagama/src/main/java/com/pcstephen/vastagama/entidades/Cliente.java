@@ -22,10 +22,12 @@ public class Cliente implements Serializable {
     private UUID id;
 
     private String nome;
-    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Telefone> telefones = new ArrayList<>();
-    @OneToOne(mappedBy = "cliente")
-    private Endereco endereco;
+    private List<String> telefones;
+    private String rua;
+    private String complemento;
+    private String numeroEndereco;
+    private String bairro;
+    private String setor;
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrdemServico> ordemDeServicos = new ArrayList<>();
     @Column(unique = true)
@@ -35,16 +37,17 @@ public class Cliente implements Serializable {
     public Cliente() {
     }
 
-    public Cliente(UUID id, String nome, List<Telefone> telefones, Endereco endereco, List<OrdemServico> ordemServicosList) {
+    public Cliente(UUID id, String nome, List<String> telefones, String rua, String complemento, String numeroEndereco, String bairro, String setor, List<OrdemServico> ordemDeServicos, String codigoPublico) {
         this.id = id;
         this.nome = nome;
         this.telefones = telefones;
-        this.endereco = endereco;
-        this.ordemDeServicos = ordemServicosList;
-    }
-
-    public void adicionaTelefone(Telefone telefone){
-        telefones.add(telefone);
+        this.rua = rua;
+        this.complemento = complemento;
+        this.numeroEndereco = numeroEndereco;
+        this.bairro = bairro;
+        this.setor = setor;
+        this.ordemDeServicos = ordemDeServicos;
+        this.codigoPublico = codigoPublico;
     }
 
     public void adicionaOrdemServico(OrdemServico ordemServico) {
@@ -64,8 +67,8 @@ public class Cliente implements Serializable {
     }
 
     @PrePersist
-    public void gerarCodigoPublico(){
+    public void gerarCodigoPublico() {
         UUID uuid = UUID.randomUUID();
-        this.codigoPublico = uuid.toString().replace("-","").substring(0, 8);
+        this.codigoPublico = uuid.toString().replace("-", "").substring(0, 8);
     }
 }

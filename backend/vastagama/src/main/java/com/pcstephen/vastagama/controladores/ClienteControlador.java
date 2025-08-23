@@ -27,25 +27,23 @@ public class ClienteControlador {
     }
 
     @GetMapping("/{cod}")
-    public ResponseEntity<Optional<Cliente>> buscarPorCodigo(@PathVariable String cod){
-        Optional<Cliente> cliente = service.buscarPorCodigoPublico(cod);
-        if(cliente.isEmpty()){
+    public ResponseEntity<Optional<ClienteDTO>> buscarPorCodigo(@PathVariable String cod){
+        Optional<ClienteDTO> clienteDTO = service.buscarPorCodigoPublico(cod);
+        if(clienteDTO.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(cliente, HttpStatus.OK);
+        return new ResponseEntity<>(clienteDTO, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Cliente> salvar(@RequestBody Cliente cliente) {
-        service.cadastrarCliente(cliente);
-        return ResponseEntity.status(HttpStatus.CREATED).body(cliente);
+    public ResponseEntity<ClienteDTO> salvar(@RequestBody ClienteDTO clienteDTO) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.cadastrarCliente(clienteDTO));
 //        return ResponseEntity.status(HttpStatus.CREATED).body("Cliente cadastrado com sucesso!");
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<String> atualizar(@PathVariable String id, @RequestBody ClienteDTO dto) {
-        service.editarCliente(id, dto);
-        return ResponseEntity.ok("Cliente editado com Sucesso!");
+    @PutMapping("/{codPublico}")
+    public ResponseEntity<ClienteDTO> atualizar(@PathVariable String codPublico, @RequestBody ClienteDTO dto) {
+        return ResponseEntity.ok(service.editarCliente(codPublico, dto));
     }
 }

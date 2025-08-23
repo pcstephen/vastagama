@@ -3,7 +3,9 @@ package com.pcstephen.vastagama.services;
 import com.pcstephen.vastagama.dto.ClienteDTO;
 import com.pcstephen.vastagama.entidades.Cliente;
 import com.pcstephen.vastagama.infra.excecoes.ObjetoInvalidoException;
+import com.pcstephen.vastagama.infra.excecoes.ObjetoNaoEncontradoException;
 import com.pcstephen.vastagama.repositorios.ClienteRepositorio;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +19,10 @@ public class ClienteService {
 
     @Autowired
     private ClienteRepositorio repo;
+    @Autowired
+    private OrdemServicoService ordemServicoService;
+
+    ModelMapper modelMapper;
 
     public Optional<Cliente> buscarPorId(UUID id) {
         return repo.findById(id);
@@ -30,40 +36,41 @@ public class ClienteService {
         return repo.findClienteByNomeContainingIgnoreCaseOrderByNomeAsc(nome);
     }
 
-    public Optional<Cliente> buscarPorCodigoPublico(String codigoPublico) {
+    public Optional<ClienteDTO> buscarPorCodigoPublico(String codigoPublico) {
         if(codigoPublico.isBlank()){
             throw new ObjetoInvalidoException("Erro: Código inválido!");
         }
 
-        return repo.findClienteByCodigoPublico(codigoPublico);
+        return repo.findClienteByCodigoPublico(codigoPublico).
+                map(cliente -> modelMapper.map(cliente, ClienteDTO.class));
     }
 
     @Transactional
-    public void cadastrarCliente(Cliente cliente){
-        Optional.ofNullable(cliente)
-                .orElseThrow(() -> new ObjetoInvalidoException("Erro: cliente nulo!"));
+    public ClienteDTO cadastrarCliente(ClienteDTO clienteDTO){
 
-            cliente.setId(UUID.randomUUID());
-            cliente.gerarCodigoPublico();
-            System.out.println("Código cliente: " + cliente.getCodigoPublico());
-
-
-        if (cliente.getNome() == null || cliente.getNome().trim().isBlank()) {
-            throw new ObjetoInvalidoException("Erro: Nome do cliente não pode ser vazio.");
+        if(clienteDTO == null){
+            throw new ObjetoInvalidoException("Erro ao salvar cliente! Verifique dados enviados");
         }
+        Cliente salvo = repo.save(modelMapper.map(clienteDTO, Cliente.class));
+        clienteDTO.getOrdemServico().forEach(
+                ordemServico -> {
+                    ordemServico.setCliente(salvo);
+                    ordemServicoService.cadastrarOrdemServico(ordemServico);
+                }
+        );
 
-        repo.save(cliente);
+
+        return modelMapper.map(salvo, ClienteDTO.class);
     }
 
     @Transactional
-    public Cliente editarCliente(String codPub, ClienteDTO dto){
-        Cliente clienteEditado = buscarPorCodigoPublico(codPub).orElseThrow(()-> new ObjetoInvalidoException("Erro: Cliente não encontrado!"));
+    public ClienteDTO editarCliente(String codPub, ClienteDTO dto){
+        Cliente clienteExistente = buscarPorCodigoPublico(codPub).map(
+                c -> modelMapper.map(c, Cliente.class)).orElseThrow(()-> new ObjetoNaoEncontradoException("Erro ao editar cliente! Id inválido!")
+        );
 
-        if(dto.nome() == null || dto.nome().trim().isBlank()){
-            throw new ObjetoInvalidoException("Erro: Nome do cliente não pode ser vazio!");
-        }
-        clienteEditado.setNome(dto.nome());
-        return repo.save(clienteEditado);
+        modelMapper.map(dto, clienteExistente);
+        return modelMapper.map(repo.save(clienteExistente), ClienteDTO.class);
     }
 
 
