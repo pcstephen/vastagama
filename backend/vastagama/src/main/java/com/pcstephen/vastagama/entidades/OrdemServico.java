@@ -28,7 +28,7 @@ public class OrdemServico implements Serializable {
     @OneToMany(mappedBy = "ordemServico", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonProperty("itens")
     private List<ItemOrdemServico> itens;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "cliente", nullable = false)
     @JsonIgnore
     private Cliente cliente;
@@ -52,5 +52,9 @@ public class OrdemServico implements Serializable {
         this.dataAlteracao = LocalDate.now();
     }
 
+    @PreUpdate
+    public void preUpdate(){
+        this.dataAlteracao = LocalDate.now();
+    }
 
 }

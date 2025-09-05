@@ -22,6 +22,7 @@ public class ClienteService {
     @Autowired
     private OrdemServicoService ordemServicoService;
 
+    @Autowired
     ModelMapper modelMapper;
 
     public Optional<Cliente> buscarPorId(UUID id) {
@@ -32,12 +33,12 @@ public class ClienteService {
         return repo.findAllByOrderByNomeAsc();
     }
 
-    public List<Cliente> buscarPorNome(String nome){
+    public List<Cliente> buscarPorNome(String nome) {
         return repo.findClienteByNomeContainingIgnoreCaseOrderByNomeAsc(nome);
     }
 
     public Optional<ClienteDTO> buscarPorCodigoPublico(String codigoPublico) {
-        if(codigoPublico.isBlank()){
+        if (codigoPublico.isBlank()) {
             throw new ObjetoInvalidoException("Erro: Código inválido!");
         }
 
@@ -46,27 +47,30 @@ public class ClienteService {
     }
 
     @Transactional
-    public ClienteDTO cadastrarCliente(ClienteDTO clienteDTO){
+    public ClienteDTO cadastrarCliente(ClienteDTO clienteDTO) {
 
-        if(clienteDTO == null){
+        if (clienteDTO == null) {
             throw new ObjetoInvalidoException("Erro ao salvar cliente! Verifique dados enviados");
         }
         Cliente salvo = repo.save(modelMapper.map(clienteDTO, Cliente.class));
-        clienteDTO.getOrdemServico().forEach(
-                ordemServico -> {
-                    ordemServico.setCliente(salvo);
-                    ordemServicoService.cadastrarOrdemServico(ordemServico);
-                }
-        );
+
+
+        if (clienteDTO.getOrdemDeServicos() != null) {
+            clienteDTO.getOrdemDeServicos().forEach(
+                    ordemServico -> {
+                        ordemServicoService.cadastrarOrdemServico(ordemServico);
+                    }
+            );
+        }
 
 
         return modelMapper.map(salvo, ClienteDTO.class);
     }
 
     @Transactional
-    public ClienteDTO editarCliente(String codPub, ClienteDTO dto){
+    public ClienteDTO editarCliente(String codPub, ClienteDTO dto) {
         Cliente clienteExistente = buscarPorCodigoPublico(codPub).map(
-                c -> modelMapper.map(c, Cliente.class)).orElseThrow(()-> new ObjetoNaoEncontradoException("Erro ao editar cliente! Id inválido!")
+                c -> modelMapper.map(c, Cliente.class)).orElseThrow(() -> new ObjetoNaoEncontradoException("Erro ao editar cliente! Id inválido!")
         );
 
         modelMapper.map(dto, clienteExistente);

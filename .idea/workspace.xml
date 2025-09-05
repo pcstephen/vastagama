@@ -6,8 +6,16 @@
   <component name="ChangeListManager">
     <list default="true" id="ff7af8e2-6da4-4214-9fa9-74d3c344bbf2" name="Changes" comment="Cria e implementa Login e Autenticação e Autorização via OAuth2">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/vastagama/src/main/java/com/pcstephen/vastagama/entidades/ItemOrdemServico.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/vastagama/src/main/java/com/pcstephen/vastagama/entidades/ItemOrdemServico.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/vastagama/src/main/java/com/pcstephen/vastagama/controladores/ItemOrdemServiceControlador.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/vastagama/src/main/java/com/pcstephen/vastagama/controladores/OrdemServicoControlador.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/vastagama/src/main/java/com/pcstephen/vastagama/controladores/OrdemServicoControlador.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/vastagama/src/main/java/com/pcstephen/vastagama/dto/ClienteDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/vastagama/src/main/java/com/pcstephen/vastagama/dto/ClienteDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/vastagama/src/main/java/com/pcstephen/vastagama/dto/OrdemServicoDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/vastagama/src/main/java/com/pcstephen/vastagama/dto/OrdemServicoDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/vastagama/src/main/java/com/pcstephen/vastagama/entidades/Cliente.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/vastagama/src/main/java/com/pcstephen/vastagama/entidades/Cliente.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/vastagama/src/main/java/com/pcstephen/vastagama/entidades/OrdemServico.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/vastagama/src/main/java/com/pcstephen/vastagama/entidades/OrdemServico.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/vastagama/src/main/java/com/pcstephen/vastagama/infra/security/SecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/vastagama/src/main/java/com/pcstephen/vastagama/infra/security/SecurityConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/vastagama/src/main/java/com/pcstephen/vastagama/services/ClienteService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/vastagama/src/main/java/com/pcstephen/vastagama/services/ClienteService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/vastagama/src/main/java/com/pcstephen/vastagama/services/ItemOrdemServicoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/vastagama/src/main/java/com/pcstephen/vastagama/services/ItemOrdemServicoService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/vastagama/src/main/java/com/pcstephen/vastagama/services/OrdemServicoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/vastagama/src/main/java/com/pcstephen/vastagama/services/OrdemServicoService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,34 +46,34 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;Spring Boot.VastagamaApplication (1).executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.VastagamaApplication.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/steph/projetos/vastagama&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/snap/intellij-idea-ultimate/583/plugins/javascript-plugin/jsLanguageServicesImpl/external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "Spring Boot.VastagamaApplication (1).executor": "Debug",
+    "Spring Boot.VastagamaApplication.executor": "Run",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/steph/projetos/vastagama",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.keymap",
+    "ts.external.directory.path": "/snap/intellij-idea-ultimate/583/plugins/javascript-plugin/jsLanguageServicesImpl/external",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.pcstephen.vastagama.infra.excecoes" />
@@ -145,7 +153,9 @@
       <workItem from="1755210489770" duration="2773000" />
       <workItem from="1755903794752" duration="30000" />
       <workItem from="1755903944352" duration="5455000" />
-      <workItem from="1756005988593" duration="1187000" />
+      <workItem from="1756005988593" duration="8392000" />
+      <workItem from="1756234155067" duration="3106000" />
+      <workItem from="1757027657109" duration="2087000" />
     </task>
     <servers />
   </component>
@@ -165,10 +175,14 @@
           <line>32</line>
           <option name="timeStamp" value="8" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/backend/vastagama/src/main/java/com/pcstephen/vastagama/infra/security/FiltroAutenticacaoUsuario.java</url>
-          <line>45</line>
-          <option name="timeStamp" value="9" />
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/backend/vastagama/src/main/java/com/pcstephen/vastagama/services/ClienteService.java</url>
+          <line>49</line>
+          <properties class="com.pcstephen.vastagama.services.ClienteService" method="cadastrarCliente">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="12" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

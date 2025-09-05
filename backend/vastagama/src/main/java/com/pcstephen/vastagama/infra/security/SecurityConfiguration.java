@@ -30,7 +30,8 @@ public class SecurityConfiguration {
 
     // Endpoints que requerem autenticação para serem acessados
     public static final String[] ENDPOINTS_COM_AUTENTICACAO_NECESSARIA = {
-            "/users/teste"
+            "/users/teste",
+            "/clientes"
     };
 
     // Endpoints que só podem ser acessador por usuários com permissão de cliente

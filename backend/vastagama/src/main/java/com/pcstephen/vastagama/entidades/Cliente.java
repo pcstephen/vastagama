@@ -1,7 +1,9 @@
 package com.pcstephen.vastagama.entidades;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
@@ -14,6 +16,8 @@ import java.util.UUID;
 @Table(name = "clientes")
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Cliente implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -26,32 +30,21 @@ public class Cliente implements Serializable {
     private String rua;
     private String complemento;
     private String numeroEndereco;
-    private String bairro;
     private String setor;
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrdemServico> ordemDeServicos = new ArrayList<>();
+    private List<OrdemServico> ordemDeServicos;
     @Column(unique = true)
     private String codigoPublico;
 
-
-    public Cliente() {
-    }
-
-    public Cliente(UUID id, String nome, List<String> telefones, String rua, String complemento, String numeroEndereco, String bairro, String setor, List<OrdemServico> ordemDeServicos, String codigoPublico) {
-        this.id = id;
-        this.nome = nome;
-        this.telefones = telefones;
-        this.rua = rua;
-        this.complemento = complemento;
-        this.numeroEndereco = numeroEndereco;
-        this.bairro = bairro;
-        this.setor = setor;
-        this.ordemDeServicos = ordemDeServicos;
-        this.codigoPublico = codigoPublico;
-    }
-
     public void adicionaOrdemServico(OrdemServico ordemServico) {
         this.ordemDeServicos.add(ordemServico);
+    }
+
+    public List<OrdemServico> getOrdemDeServicos() {
+        if(ordemDeServicos == null){
+            ordemDeServicos = new ArrayList<>();
+        }
+        return ordemDeServicos;
     }
 
     @Override
@@ -69,6 +62,7 @@ public class Cliente implements Serializable {
     @PrePersist
     public void gerarCodigoPublico() {
         UUID uuid = UUID.randomUUID();
+        id = uuid;
         this.codigoPublico = uuid.toString().replace("-", "").substring(0, 8);
     }
 }

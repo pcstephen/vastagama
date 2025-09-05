@@ -1,5 +1,6 @@
 package com.pcstephen.vastagama.controladores;
 
+import com.pcstephen.vastagama.dto.OrdemServicoDTO;
 import com.pcstephen.vastagama.entidades.OrdemServico;
 import com.pcstephen.vastagama.services.OrdemServicoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,21 +19,20 @@ public class OrdemServicoControlador {
     private OrdemServicoService service;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<OrdemServico>> getOrdemServico(@PathVariable UUID id) {
-        Optional<OrdemServico> ordemServico =  service.buscarPorId(id);
+    public ResponseEntity<OrdemServicoDTO> getOrdemServico(@PathVariable UUID id) {
+        OrdemServicoDTO ordemServico =  service.buscarPorId(id);
         return  ResponseEntity.status(HttpStatus.OK).body(ordemServico);
-
     }
 
     @PostMapping
-    public ResponseEntity<String> salvar(@RequestBody OrdemServico ordemServico) {
-        service.cadastrarOrdemServico(ordemServico);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Ordem de Serviço cadastrada com sucesso!");
+    public ResponseEntity<OrdemServicoDTO> salvar(@RequestBody OrdemServicoDTO ordemServicoDTO) {
+        service.cadastrarOrdemServico(ordemServicoDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(ordemServicoDTO);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> atualizar(@PathVariable UUID id, @RequestBody OrdemServico ordemServico) {
-        service.editarOrdemServico(id, ordemServico);
+    public ResponseEntity<String> atualizar(@PathVariable UUID id, @RequestBody OrdemServicoDTO ordemServicoDTO) {
+        service.editarOrdemServico(id, ordemServicoDTO);
         return ResponseEntity.status(HttpStatus.OK).body("Ordem de Serviço atualizada com sucesso!");
     }
 
